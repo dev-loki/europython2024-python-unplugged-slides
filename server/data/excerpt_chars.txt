@@ -1,0 +1,69 @@
+a alchemist
+a bard
+a blacksmith
+a dragon
+a dwarf miner
+a elven archer
+a innkeeper
+a jester
+a king
+a knight
+a master chef
+a merchant
+a necromancer
+a oracle
+a pirate captain
+a princess
+a queen
+a ranger
+a royal food taster
+a shapeshifter
+a talking animal
+a thief
+a wizard
+some alchemist
+some bard
+some blacksmith
+some dragon
+some dwarf miner
+some elven archer
+some innkeeper
+some jester
+some king
+some knight
+some master chef
+some merchant
+some necromancer
+some oracle
+some pirate captain
+some princess
+some queen
+some ranger
+some royal food taster
+some shapeshifter
+some talking animal
+some thief
+some wizard
+the alchemist
+the bard
+the blacksmith
+the dragon
+the dwarf miner
+the elven archer
+the innkeeper
+the jester
+the king
+the knight
+the master chef
+the merchant
+the necromancer
+the oracle
+the pirate captain
+the princess
+the queen
+the ranger
+the royal food taster
+the shapeshifter
+the talking animal
+the thief
+the wizard
