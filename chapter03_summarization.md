@@ -12,20 +12,27 @@ _in which dimensions we're working here?_
 layout: center
 ---
 
+### Creating an Index
+
 We want to have list of words in all the titles.
 
-**An Example:**
+<v-click>
+
+<hr>
+
+Very simple example Example
 
 - The: 123
 - a: 42
 - magician: 99
 
+</v-click>
+
 ---
-layout: center
----
+
+### Count Words
 
 ````md magic-move
-
 ```python
 def most_common_words_in_title(books: Iterable[BookResponse]) -> dict:
     word_counter = {}
@@ -43,6 +50,9 @@ def most_common_words_in_title(books: Iterable[BookResponse]) -> dict:
 
 ```python
 def most_common_words_in_title(books: Iterable[BookResponse]) -> dict:
+    """
+    REPLACE
+    """
     word_counter = {}
 
     for book in books:
@@ -58,6 +68,9 @@ from collections import defaultdict
 
 
 def most_common_words_in_title(books: Iterable[BookResponse]) -> dict:
+    """
+    Import and use dictionary
+    """
     word_counter = defaultdict(int)
 
     for book in books:
@@ -73,6 +86,9 @@ from collections import defaultdict
 
 
 def most_common_words_in_title(books: Iterable[BookResponse]) -> dict:
+    """
+    Much more concise :)
+    """
     word_counter = defaultdict(int)
 
     for book in books:

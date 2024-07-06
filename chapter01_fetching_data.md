@@ -185,6 +185,12 @@ image: images/orang-utan-library.png
 
 ### Let's continue
 
+<br>
+
+<hr> 
+
+<br>
+
 <v-clicks>
 
 - There are a LOT of books. And we only have limited ressources

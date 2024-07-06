@@ -309,7 +309,7 @@ def save_json(filename: str, num: int, jsonl: bool) -> None:
             filename += ".jsonl"
 
         with open(filename, "w") as f:
-            f.writelines([json.dumps(book) for book in books])
+            f.writelines([json.dumps(book) + "\n" for book in books])
     else:
         if not filename.endswith(".json"):
             filename += ".json"

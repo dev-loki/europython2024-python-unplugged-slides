@@ -6,3 +6,6 @@ dist
 .remote-assets
 components.d.ts
 node_modules
+output.csv
+output.json
+output.jsonl
