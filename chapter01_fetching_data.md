@@ -44,7 +44,7 @@ def fetch_book() -> dict:
     response = request.urlopen(URL_BOOK).read()
 ```
 
-```python {1-3,5,8,10|all}
+```python {1-3,5,8,10}
 """
 We now have to take care of json ourselves
 """

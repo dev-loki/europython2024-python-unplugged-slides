@@ -88,6 +88,14 @@ layout: center
 <Toc maxDepth="2" columns="2" />
 
 ---
+layout: center
+hideInToc: true
+---
+
+
+# What's the story?
+
+---
 src: ./chapter01_fetching_data.md
 hide: false
 ---

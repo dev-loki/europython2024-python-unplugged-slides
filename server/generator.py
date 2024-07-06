@@ -11,27 +11,30 @@ import json
 import socketserver
 import sys
 from datetime import datetime
+from time import sleep
 
+
+BASE_PATH = Path(__file__).parent / "data"
 
 ## Base data for generating text
-ADJECTIVES = Path("data/adjectives.txt").read_text().strip().splitlines()
+ADJECTIVES = BASE_PATH.joinpath("adjectives.txt").read_text().strip().splitlines()
 AUTHOR_TITLES = (
-    Path("data/author_titles.txt").read_text().strip().splitlines() + [""] * 5
+    BASE_PATH.joinpath("author_titles.txt").read_text().strip().splitlines() + [""] * 5
 )
-EXCERPT_ACTION = Path("data/excerpt_actions.txt").read_text().strip().splitlines()
-EXCERPT_ADJECTIVE = Path("data/excerpt_adjectives.txt").read_text().strip().splitlines()
-EXCERPT_CHAR = Path("data/excerpt_chars.txt").read_text().strip().splitlines()
-EXCERPT_LOCATION = Path("data/excerpt_locations.txt").read_text().strip().splitlines()
+EXCERPT_ACTION = BASE_PATH.joinpath("excerpt_actions.txt").read_text().strip().splitlines()
+EXCERPT_ADJECTIVE = BASE_PATH.joinpath("excerpt_adjectives.txt").read_text().strip().splitlines()
+EXCERPT_CHAR = BASE_PATH.joinpath("excerpt_chars.txt").read_text().strip().splitlines()
+EXCERPT_LOCATION = BASE_PATH.joinpath("excerpt_locations.txt").read_text().strip().splitlines()
 EXCERPT_PLOT_ELEMENT = (
-    Path("data/excerpt_plot_elements.txt").read_text().strip().splitlines()
+    BASE_PATH.joinpath("excerpt_plot_elements.txt").read_text().strip().splitlines()
 )
-GENRES = Path("data/genres.txt").read_text().strip().splitlines()
-LOCATIONS = Path("data/locations.txt").read_text().strip().splitlines()
-NAMES_FIRST = Path("data/names_first.txt").read_text().strip().splitlines()
-NAMES_SECOND = Path("data/names_second.txt").read_text().strip().splitlines()
-NOUNS = Path("data/nouns.txt").read_text().strip().splitlines()
-SUFFIXES = Path("data/suffixes.txt").read_text().strip().splitlines()
-YEAR_EVENTS = Path("data/events.txt").read_text().strip().splitlines()
+GENRES = BASE_PATH.joinpath("genres.txt").read_text().strip().splitlines()
+LOCATIONS = BASE_PATH.joinpath("locations.txt").read_text().strip().splitlines()
+NAMES_FIRST = BASE_PATH.joinpath("names_first.txt").read_text().strip().splitlines()
+NAMES_SECOND = BASE_PATH.joinpath("names_second.txt").read_text().strip().splitlines()
+NOUNS = BASE_PATH.joinpath("nouns.txt").read_text().strip().splitlines()
+SUFFIXES = BASE_PATH.joinpath("suffixes.txt").read_text().strip().splitlines()
+YEAR_EVENTS = BASE_PATH.joinpath("events.txt").read_text().strip().splitlines()
 
 MIN_DATE = -500
 MAX_DATE = 1000
@@ -329,7 +332,7 @@ def print_book(counter: int) -> None:
         print(book["title"], book["author"])
         for key, value in book.items():
             if key not in ("title", "author"):
-                print(f"  {key}:\t{value}")
+                print(f"{key:>12}: {value}")
         print(flush=True)
 
 
@@ -342,6 +345,7 @@ def cli() -> None:
     # Print book
     parser_book = subparsers.add_parser("book")
     parser_book.add_argument("num", type=int, nargs="?", default=1, help="Print books")
+    parser_book.add_argument("--stream", action="store_true", help="Stream books")
 
     # Serve part
     parser_serve = subparsers.add_parser("serve")
@@ -393,7 +397,12 @@ def cli() -> None:
     elif args.command == "json":
         save_json(args.filename, args.num, bool(args.jsonl))
     elif args.command == "book":
-        print_book(args.num)
+        if bool(args.stream):
+            for _ in range(args.num):
+                print_book(1)
+                sleep(1)
+        else:
+            print_book(args.num)
 
 
 if __name__ == "__main__":
