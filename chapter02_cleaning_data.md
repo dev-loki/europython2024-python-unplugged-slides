@@ -155,8 +155,13 @@ layout: center
 
 #### pairwise
 
+<v-clicks>
 
-TODO: Finish
+- Signature: `def pairwise(iterable: Iterable[T]) -> Iterable[tuple[T, T]]`
+- Makes out of an iterator like `range(10)`...
+- ... and iterator like `((0,1), (1,2), (2,3), ...)`
+
+</v-clicks>
 
 ---
 layout: center
@@ -164,7 +169,15 @@ layout: center
 
 #### chain
 
-TODO: Finish
+<v-clicks>
+
+- Chains together multiple iterables
+- From this `list(chain('Hello', 'World'))` ...
+    - We get this `['H', 'e', 'l', 'l', 'o', 'W', 'o', 'r', 'l', 'd']`
+- Advantage: it's lazy and doesn't create a new object, like:
+    - `combined_list = [*my_list, *my_other_list]`
+
+</v-clicks>
 
 ---
 layout: center
@@ -216,7 +229,6 @@ def hide_lost_books(iterable: Iterable) -> Iterator:
 ```python
 """
 and iterating through the books...
-... until we find...
 """
 def hide_lost_books(iterable: Iterable) -> Iterator:
     for book in iterable:
@@ -225,21 +237,19 @@ def hide_lost_books(iterable: Iterable) -> Iterator:
 
 ```python
 """
-... until we find...
 Let's make our live easier again
+(Not so much typing details, as there are specialized talks)
 """
 def hide_lost_books(
     iterable: Iterable[BookResponse]
 ) -> Iterator[BookResponse]:
     for book in iterable:
-        if book["lent_since"] < "???"  # <--- wait a minute²
+        if book["lent_since"] < "???"
 ```
 
 ```python
 """
-Let's make our live easier again
-- we won't go too much into detail 
-- there are specialized typing talks :)
+We want to extract the year
 """
 def hide_lost_books(
     iterable: Iterable[BookResponse]
@@ -250,32 +260,29 @@ def hide_lost_books(
         if book["lent_since"] < "???"  
 ```
 
-```python {1-4,8-9}
-"""
-Nothing too complicated...
-"""
+```python
 import re
 
 
-def extract_year(morpokh_year: str) -> int:
-    """Search for first number in year string. Right?"""
-    return int(re.search(r"(\d)", morpokh_year).group(0))
+def extract_year(morporkyear: str) -> int:
+    """Search for first number in year string. Easy. Right?"""
+    return int(re.search(r"(\d)", morporkyear).group(0))
 
 
 def hide_lost_books(iterable: Iterable[BookResponse]) -> Iterator[BookResponse]:
     ...
 ```
 
-```python {1-4,8-9}
-"""
-But how do we know this really does what we want?
-We could try it, but this is boring and doesn't scale!
-"""
+```python
 import re
 
 
-def extract_year(morpokh_year: str) -> int:
-    return int(re.search(r"(\d)", morpokh_year).group(0))
+def extract_year(morporkyear: str) -> int:
+    """
+    But how do we know this really does what we want?
+    We could try it, but this is boring and doesn't scale!
+    """
+    return int(re.search(r"(\d)", morporkyear).group(0))
 
 
 def hide_lost_books(iterable: Iterable[BookResponse]) -> Iterator[BookResponse]:
@@ -291,64 +298,80 @@ image: images/orang-utan-doctor.png
 ## Doctest - to the rescue
 
 ```python
+"""Lets start with the same function, but add some
+minimal documentation"""
 import re
 
 
-def extract_year(morpokh_year: str) -> int:
+def extract_year(morporkyear: str) -> int:
     """
-    This extracts the actual year from a yearstring
+    This extracts the year from a yearstring
 
     >>> extract_year("year 450 in the 3rd month")
     450
     """
-    return int(re.search(r"(\d)", morpokh_year).group(0))
+    return int(
+        re.search(r"(\d)", morporkyear).group(0)
+    )
 ```
 
-<v-click>
+---
+layout: image-right
+image: images/orang-utan-doctor.png
+---
 
-```sh {1|3-8|8-11}
+```sh {1|3-10|10-13}
 python -m doctest code/chapter2/doctest_example.py
 
-**********************************************************************
-File ".../code/chapter2/doctest_example.py", line 8, in doctest_example.extract_year
-Failed example: extract_year("year 450 in the 3rd month")
+**************************************************
+File ".../code/chapter2/doctest_example.py", 
+    line 8,in doctest_example.extract_year
+Failed example: extract_year("year 450 in the 3rd 
+    month")
 Expected: 450
 Got: 4
-**********************************************************************
+**************************************************
 1 items had failures:
    1 of 1 in doctest_example.extract_year
 ***Test Failed*** 1 failures.
 ```
 
-</v-click>
-
+---
+layout: image-right
+image: images/orang-utan-doctor.png
 ---
 
 Long story short: lets fix it!
 
 ````md magic-move
 ```python
+"""
+Basically just saying that we expect at least one 
+but arbitrary many numbers
+"""
 import re
 
 
-def extract_year(morpokh_year: str) -> int:
+def extract_year(morporkyear: str) -> int:
     """
     This extracts the actual year from a yearstring
 
     >>> extract_year("year 450 in the 3rd month")
     450
-
-    >>> extract_year("year 0 in the 3rd month")
-    0
     """
-    return int(re.search(r"(\d+)", morpokh_year).group(0))
+    return int(
+        re.search(r"(\d+)", morporkyear).group(0)
+    )
 ```
 
 ```python
+"""
+Adding a few more "tests" & fixing the issues
+"""
 import re
 
 
-def extract_year(morpokh_year: str) -> int:
+def extract_year(morporkyear: str) -> int:
     """
     This extracts the actual year from a yearstring
 
@@ -361,20 +384,21 @@ def extract_year(morpokh_year: str) -> int:
     >>> extract_year("year 0 in the 3rd month")
     0
     """
-    return int(re.search(r"(-?\d+)", morpokh_year).group(0))
+    return int(
+        re.search(r"(-?\d+)", morporkyear).group(0)
+    )
 ```
 ````
 
 ---
 
+### 🕵️ Let's continue hiding the duplicates 
 
 ````md magic-move
+```python
+# ⬇️  Confident enough, that this works now
+def extract_year(morpork_year: str) -> int: ...
 
-```python {2,6-9}
-"""
-Let's continue with hiding the lost books from our catalogue
-"""
-def extract_year(morpokh_year: str) -> int: ...
 
 def hide_lost_books(iterable: Iterable[BookResponse]) -> Iterator[BookResponse]:
     for book in iterable:
@@ -385,10 +409,12 @@ def hide_lost_books(iterable: Iterable[BookResponse]) -> Iterator[BookResponse]:
 ```python
 """
 Use `yield from` to directly generate from this and unindent the code
--> Lazy :)
+Why?
+-> Because it's lazy and bidirectional
+-> Means: forwards "send" values correctly
 -> Does not work in async code :(
 """
-def extract_year(morpokh_year: str) -> int: ...
+def extract_year(morporkyear: str) -> int: ...
 
 def hide_lost_books(iterable: Iterable[BookResponse]) -> Iterator[BookResponse]:
     yield from (
@@ -401,13 +427,17 @@ def hide_lost_books(iterable: Iterable[BookResponse]) -> Iterator[BookResponse]:
 ```python
 """
 But now we want to keep track of the lost books.
+
 Using a global variable :/ ?
+-> Bad because global state can mess with us
 """
-def extract_year(morpokh_year: str) -> int: ...
+def extract_year(morporkyear: str) -> int: ...
 
 lost_books = []
 
-def hide_lost_books(iterable: Iterable[BookResponse]) -> Iterator[BookResponse]:
+def hide_lost_books(
+    iterable: Iterable[BookResponse]
+) -> Iterator[BookResponse]:
     for book in iterable:
         if extract_year(book["lent_since"]) >= -300:
             yield book
@@ -417,13 +447,15 @@ def hide_lost_books(iterable: Iterable[BookResponse]) -> Iterator[BookResponse]:
 
 ```python
 """
-Using a global variable :/ ?
-Yield the lost books last? -> ugly with return type
+Yield the lost books last?
+-> ugly with return type
 """
-def extract_year(morpokh_year: str) -> int: ...
+def extract_year(morporkyear: str) -> int: ...
 
 
-def hide_lost_books(iterable: Iterable[BookResponse]) -> Iterator[BookResponse]:
+def hide_lost_books(
+    iterable: Iterable[BookResponse]
+) -> Iterator[BookResponse | None]:
     lost_books = []
 
     for book in iterable:
@@ -432,35 +464,23 @@ def hide_lost_books(iterable: Iterable[BookResponse]) -> Iterator[BookResponse]:
         else:
             lost_books.append(book)
 
-    yield lost_books
-```
+    yield None  # as a separator
 
-```python
-"""
-Yield the lost books last? -> ugly with return type
-
-"""
-def extract_year(morpokh_year: str) -> int: ...
-
-
-def hide_lost_books(iterable: Iterable[BookResponse]) -> Iterator[BookResponse]:
-    lost_books = []
-
-    for book in iterable:
-        if extract_year(book["lent_since"]) >= -300:
-            yield book
-        else:
-            lost_books.append(book)
-
-    return lost_books
+    # The lost books
+    yield from lost_books
 ```
 
 ```python
 """
 Let's adapt our return type.
-Generator[yield type, send type, return type]
+
+Instead of an singular Value Iterator we will return
+a Generator
 """
-def hide_lost_books(iterable: Iterable[BookResponse]) -> Generator[BookResponse, None, list[BookResponse]]:
+def hide_lost_books(
+    iterable: Iterable[BookResponse]
+) -> Generator[BookResponse, None, list[BookResponse]]:
+    #     yield --^      | send ^ |   ^---- return type
     lost_books = []
 
     for book in iterable:
@@ -469,14 +489,13 @@ def hide_lost_books(iterable: Iterable[BookResponse]) -> Generator[BookResponse,
         else:
             lost_books.append(book)
 
-    return lost_books
+    yield None  # as a separator
+
+    # The lost books
+    yield from lost_books
 ```
 
 ```python
-"""
-Generator[yield type, send type, return type]
-                      ^^^^----[ lets not go into this ;) ]
-"""
 def hide_lost_books(
     iterable: Iterable[BookResponse]
 ) -> Generator[BookResponse, None, list[BookResponse]]:
@@ -491,27 +510,91 @@ def hide_lost_books(
     return lost_books
 ```
 
-
-```python {2,7-19}
+```python
 """
-And this is how we use it :)
+Usage
 """
 def hide_lost_books(iterable: Iterable[BookResponse]) -> \
     Generator[BookResponse, None, list[BookResponse]]: ...
 
-def get_return_value():
+def get_return_value() -> tuple[list[BookResponse], list[BookResponse]]:
     non_hidden_generator = hide_lost_books(mylibrary)
 
-    # consume the iterator (just as example)
+    # consume the whole generator (just as example)
     non_lost_books = list(non_hidden_generator)
 
     dropped_books = []
     try:
         next(non_hidden_generator)
     except StopIteration as e:
-        # tbh: I wished there was a better way
         dropped_books = e.value
 
     return non_lost_books, dropped_books
 ```
 ````
+
+---
+layout: center
+---
+
+### Summary
+
+<v-clicks depth="2">
+
+- Generators `yield` values
+- Generators always also return a value inside `StopIteration` (default `None`)
+- Is it a good idea?
+    - No. Most likely not, as it is kind of suprising behaviour
+- But why did we just see it?
+    - Because sometimes in one-off scripts this is faster and easier than
+      a sophisticated object containing the data solution
+- What about the middle argument in `Generation[A, B, C]`?
+    - Out of scope, but basically we can SEND stuff to generators after their creation
+    - `gen = create_generator(); gen.send(123)`
+    - Fetch with `received = yield anothervalue; received == 123`
+
+</v-clicks>
+
+--- 
+layout: two-cols
+---
+
+### 🤓 But how would I do it?
+
+<br>
+<br>
+<br>
+
+<v-clicks>
+
+- We use an object to track the data.
+    - `NamedTuple` to avoid ugly `result[0]` and `result[1]`
+    - Better: `result.lost` and `result.current`
+- relatively cheap: We only transport references
+- just yield this container instead of complex surprising methods
+
+</v-clicks>
+
+::right::
+
+```python {all|1-4|5-6|16|all}{at:1}
+from typing import NamedTuple
+
+
+class BookMeta(NamedTuple):
+    current: BookResponse
+    lost: list[BookResponse]
+
+
+def hide_lost_books(
+    iterable: Iterable[BookResponse]
+) -> Iterator[BookMeta]:
+    lost_books = []
+
+    for book in iterable:
+        if extract_year(book["lent_since"]) >= -300:
+            yield BookMeta(book, lost_books)
+        else:
+            lost_books.append(book)
+```
+

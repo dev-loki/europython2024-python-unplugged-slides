@@ -10,6 +10,7 @@
 
 ## Design / Story
 - [ ] Anständiger roter Faden - Geschichte erzählen
+- [ ] Duplicate stuff von 02 -> 03 und rename 03 -> 04
 - [ ] Design?
 - [ ] Hide/Show text where appropriate
 - [ ] Images for making it a little bit nicer
