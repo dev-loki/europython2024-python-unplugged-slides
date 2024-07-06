@@ -5,8 +5,6 @@ image: images/fetching-data.png
 
 # Chapter 1: Fetching data
 
-<hr>
-
 <style>
 h1 {
     margin-top: 50% !important;
@@ -17,9 +15,9 @@ h1 {
 
 ---
 
-### Fetching data
+## Fetching data
 
-<hr>
+<br> <hr> <br>
 
 ````md magic-move
 ```python
@@ -84,10 +82,12 @@ fetch_book() == dict(
 ````
 
 ---
+hideInToc: true
+---
 
-### Data
+## Working with data
 
-<hr>
+<hr><br>
 
 ````md magic-move
 ```python
@@ -178,9 +178,10 @@ def fetch_book() -> BookResponse: ...
 
 ---
 layout: center
+hideInToc: true
 ---
 
-### This is what it looks like
+## This is what it looks like
 
 <hr>
 
@@ -189,9 +190,10 @@ layout: center
 ---
 layout: image-left
 image: images/orang-utan-library.png
+hideInToc: true
 ---
 
-### Let's continue
+## Let's continue
 
 <br>
 
@@ -211,9 +213,9 @@ image: images/orang-utan-library.png
 
 ---
 
-### Batching: Code
+## Batching
 
-<hr> 
+<br> <hr> <br>
 
 ````md magic-move
 ```python
@@ -312,19 +314,21 @@ def only_save_non_duplicates() -> None:
 
 ---
 layout: center
+hideInToc: true
 ---
 
-### Great :) - this should work now for future tasks
+## Great :) - this should work now for future tasks
 
 ---
 layout: center
+hideInToc: true
 ---
 
-### Summary: Which modules did we learn about?
+## Summary
 
-<hr> 
+### Which modules did we learn about?
 
-#### Trivial:
+<br> <hr> <br>
 
 - csv
 - json
@@ -332,11 +336,12 @@ layout: center
 
 ---
 layout: center
+hideInToc: true
 ---
 
-#### urllib.requests
+## urllib.requests
 
-<hr> 
+<br> <hr> <br>
 
 <v-clicks>
 
@@ -348,11 +353,12 @@ layout: center
 
 ---
 layout: center
+hideInToc: true
 ---
 
-#### itertools.islice
+## itertools.islice
 
-<hr> 
+<br> <hr> <br>
 
 <v-clicks depth="2">
 
@@ -366,11 +372,12 @@ layout: center
 
 ---
 layout: center
+hideInToc: true
 ---
 
-#### itertools.batched
+## itertools.batched
 
-<hr> 
+<br> <hr> <br>
 
 <v-clicks>
 

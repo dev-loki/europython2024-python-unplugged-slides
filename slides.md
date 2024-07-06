@@ -16,7 +16,7 @@ image: images/python-mining-for-batteries.webp
 
 # Python unplugged
 
-<hr>
+<br> <hr> <br>
 
 #### Mining for hidden batteries
 
@@ -28,7 +28,7 @@ backgroundSize: contain
 
 # \$ whoami
 
-<hr>
+<br> <hr> <br>
 
 **name:** Torsten
 
@@ -37,7 +37,6 @@ backgroundSize: contain
 **age:** 37
 
 **dev since:** +12y
-
 
 **first code:** ~25y if you count creating crappy Amiga Quickbasic textadventure
 
@@ -48,7 +47,7 @@ layout: center
 
 # What problem am I trying to solve here?
 
-<hr>
+<br> <hr> <br>
 
 <v-clicks depth="2">
 
@@ -67,7 +66,7 @@ layout: center
 
 # What am I NOT trying to solve?
 
-<hr>
+<br> <hr> <br>
 
 <v-clicks>
 
@@ -84,7 +83,7 @@ layout: center
 
 # Outline
 
-<hr>
+<br> <hr> <br>
 
 <Toc maxDepth="2" columns="2" />
 
@@ -102,3 +101,41 @@ hide: false
 src: ./chapter03_summarization.md
 hide: false
 ---
+
+---
+src: ./chapter04_misc.md
+hide: false
+---
+
+---
+layout: image-left
+image: images/orang-utan-questionmark.png
+---
+
+<br>
+<br>
+<br>
+
+# Questions?
+
+<br>
+
+<hr>
+
+---
+layout: image-right
+image: images/orang-utan-dancing.png
+---
+
+<br>
+<br>
+<br>
+
+
+# Konec a poděkování
+
+<br>
+
+<hr>
+
+_(The end of the talk and thank you)_

@@ -8,19 +8,12 @@ from typing import Any, NamedTuple, Self
 from functools import partialmethod
 import http.server
 import json
-import os
 import socketserver
 import sys
 from datetime import datetime
 
-if os.getenv("NOSLEEP"):
 
-    def sleep(s: float, /) -> None:
-        """nullop"""
-else:
-    from time import sleep
-
-
+## Base data for generating text
 ADJECTIVES = Path("data/adjectives.txt").read_text().strip().splitlines()
 AUTHOR_TITLES = (
     Path("data/author_titles.txt").read_text().strip().splitlines() + [""] * 5
@@ -42,6 +35,13 @@ YEAR_EVENTS = Path("data/events.txt").read_text().strip().splitlines()
 
 MIN_DATE = -500
 MAX_DATE = 1000
+PORT = 8123
+CSV_FILE = "library.csv"
+
+
+#####################################
+## Generator objects and functions ##
+#####################################
 
 
 class AnkhDate(NamedTuple):
@@ -187,8 +187,9 @@ def generate_book() -> dict[str, Any]:
     )
 
 
-PORT = 8123
-CSV_FILE = "library.csv"
+######################
+## Server functions ##
+######################
 
 
 class RequestHandler(http.server.SimpleHTTPRequestHandler):
@@ -271,6 +272,11 @@ def serve(port: int = PORT) -> None:
         except KeyboardInterrupt:
             print("Shutting down...")
             sys.exit(1)
+
+
+##############################
+## Additional CLI functions ##
+##############################
 
 
 def save_csv(filename: str, num: int):

@@ -241,11 +241,16 @@ def most_common_words_in_data(books: Iterable[BookResponse]) -> dict:
 
 ---
 layout: center
+hideInToc: true
 ---
 
-Let's add some more data:
+## Let's add some more data:
+
+<br>
 
 <hr>
+
+<br>
 
 <v-clicks>
 
@@ -258,7 +263,6 @@ Let's add some more data:
    - maybe delete books from all the libraries (DeepChainMap example)
 
 </v-clicks>
-
 
 ---
 layout: center

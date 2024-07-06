@@ -2,7 +2,7 @@
 
 ## Code related
 
-- [ ] Summary with all code at the end of each chapter
+- [x] Summary with all code at the end of each chapter
 - [ ] (Try to) add code runner
 - [ ] Add code output
 - [ ] Add full code examples in `/code`
@@ -14,21 +14,21 @@
 - [ ] Anständiger roter Faden - Geschichte erzählen
 - [ ] Duplicate stuff von 02 -> 03 und rename 03 -> 04
 - [ ] Design?
-- [ ] Hide/Show text where appropriate
-- [ ] Images for making it a little bit nicer
-- [ ] Questions/Finish slides
+- [x] Hide/Show text where appropriate
+- [x] Images for making it a little bit nicer
+- [x] Questions/Finish slides
 
 ## Checks
-- [ ] Check broken presentation
-- [ ] Check animations
+- [x] Check broken presentation
+- [x] Check animations
 - [ ] Check variable names
 - [ ] move chainmap example to the library code?
 - [ ] Create PDF/Website/etc. -> Send PDF variant to bunny
 
 # Tools to cover
-- [ ] argparse
+- [x] argparse
 - [ ] collections.deque
-- [ ] itertools.total_ordering
+- [x] itertools.total_ordering
 
 
 # Chapters
