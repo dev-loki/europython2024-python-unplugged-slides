@@ -246,11 +246,7 @@ hideInToc: true
 
 ## Let's add some more data:
 
-<br>
-
-<hr>
-
-<br>
+<br> <hr> <br>
 
 <v-clicks>
 
@@ -269,7 +265,6 @@ layout: center
 ---
 
 ````md magic-move
-
 ```python {all|1|2|4-6|8,9|10-13|15-16}
 def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
     books_by_family_name = {}

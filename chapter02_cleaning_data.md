@@ -3,6 +3,12 @@ layout: image-left
 image: images/data-cleaning.png
 ---
 
+<br>
+<br>
+<br>
+<br>
+<br>
+
 # Chapter 2: Cleaning data
 
 <hr> 
@@ -29,9 +35,14 @@ image: images/magic-cooking-book-duplicate.png
   the books will duplicate!
 - The orang utan librarian of the Unseen University wants the list of 
   unique books as CSV (obviously!)
-- This is **NOT** a leetcode talk ;)
+- This is **NOT** a leetcode talk ;) (So no fancy but obvious `O(1)` P in NP solution)
 
 </v-clicks>
+
+<!--
+No leetcode -> solutions might not be perfect
+- The goal are the tools and not having O(1) algorithms ;)
+-->
 
 ---
 
@@ -47,6 +58,29 @@ COLUMNS = BookResponse.__annotations.__.keys()
 
 
 def only_save_non_duplicates() -> None:
+    book_gen = fetch_library()
+
+    with Path(LIBRARY_DB).open("w") as file:
+        writer = DictWriter(file, fieldnames=COLUMNS)
+        writer.writeheader()
+        for batch in batched(lib, 10):
+            writer.writerows(batch)
+```
+
+```python
+from csv import DictWriter
+from itertools import batched
+
+
+LIBRARY_DB = "library_raw.csv"
+COLUMNS = BookResponse.__annotations.__.keys()
+
+
+def only_save_non_duplicates() -> None:
+    """
+    Now we use a (yet to described) method to 
+    filter out the duplicates
+    """
     book_gen = fetch_library()
 
     with Path(LIBRARY_DB).open("w") as file:
@@ -146,6 +180,12 @@ def only_save_non_duplicates() -> None:
                 writer.writerow(book2)
 ```
 ````
+
+<!--
+"Remember this" 
+
+We have written this basic code to just save the data from "magic funnel" to CSV
+-->
 
 ---
 layout: center
@@ -248,7 +288,6 @@ def hide_lost_books(iterable: Iterable) -> Iterator:
 ```python
 """
 Let's make our live easier again
-(Not so much typing details, as there are specialized talks)
 """
 def hide_lost_books(
     iterable: Iterable[BookResponse]
@@ -406,7 +445,7 @@ def extract_year(morporkyear: str) -> int:
 
 ---
 
-### 🕵️ Let's continue hiding the duplicates 
+### 🕵️ Let's continue hiding the lost books
 
 <hr> 
 
@@ -613,4 +652,3 @@ def hide_lost_books(
         else:
             lost_books.append(book)
 ```
-

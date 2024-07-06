@@ -3,9 +3,9 @@
 ## Code related
 
 - [x] Summary with all code at the end of each chapter
-- [ ] Fix Book generation indentation
-- [ ] Add book generation
-- [ ] Add book generation as animation to slides
+- [x] Fix Book generation indentation
+- [x] Add book generation
+- [x] Add book generation as animation to slides
 - [ ] (Try to) add code runner
 - [ ] Add code output
 - [ ] Add full code examples in `/code`

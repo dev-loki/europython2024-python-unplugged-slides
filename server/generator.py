@@ -21,10 +21,16 @@ ADJECTIVES = BASE_PATH.joinpath("adjectives.txt").read_text().strip().splitlines
 AUTHOR_TITLES = (
     BASE_PATH.joinpath("author_titles.txt").read_text().strip().splitlines() + [""] * 5
 )
-EXCERPT_ACTION = BASE_PATH.joinpath("excerpt_actions.txt").read_text().strip().splitlines()
-EXCERPT_ADJECTIVE = BASE_PATH.joinpath("excerpt_adjectives.txt").read_text().strip().splitlines()
+EXCERPT_ACTION = (
+    BASE_PATH.joinpath("excerpt_actions.txt").read_text().strip().splitlines()
+)
+EXCERPT_ADJECTIVE = (
+    BASE_PATH.joinpath("excerpt_adjectives.txt").read_text().strip().splitlines()
+)
 EXCERPT_CHAR = BASE_PATH.joinpath("excerpt_chars.txt").read_text().strip().splitlines()
-EXCERPT_LOCATION = BASE_PATH.joinpath("excerpt_locations.txt").read_text().strip().splitlines()
+EXCERPT_LOCATION = (
+    BASE_PATH.joinpath("excerpt_locations.txt").read_text().strip().splitlines()
+)
 EXCERPT_PLOT_ELEMENT = (
     BASE_PATH.joinpath("excerpt_plot_elements.txt").read_text().strip().splitlines()
 )
@@ -329,10 +335,9 @@ def save_json(filename: str, num: int, jsonl: bool) -> None:
 def print_book(counter: int) -> None:
     for _ in range(counter):
         book = generate_book()
-        print(book["title"], book["author"])
+        print(f"{book["title"]} by {book["author"]}")
         for key, value in book.items():
-            if key not in ("title", "author"):
-                print(f"{key:>12}: {value}")
+            print(f"{key:>12}: {value}")
         print(flush=True)
 
 
@@ -340,6 +345,7 @@ def cli() -> None:
     import argparse
 
     parser = argparse.ArgumentParser(description="Create CSV/JSON or serve")
+
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     # Print book

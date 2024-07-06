@@ -57,7 +57,7 @@ def fetch_book() -> dict:
     return json.loads(response)
 ```
 
-```python {1-5,8-22}
+```python
 """
 An example response for our project
 """
@@ -81,6 +81,12 @@ fetch_book() == dict(
 ```
 ````
 
+<!--
+- Most of us should already know requests or similar libraries (httpx?)
+- replacing by urllib.request + json
+- And this is what our server will return -> one example of a book
+-->
+
 ---
 hideInToc: true
 ---
@@ -91,7 +97,6 @@ hideInToc: true
 
 ````md magic-move
 ```python
-"""Remember this?"""
 def fetch_book() -> dict:
     response = request.urlopen(URL_BOOK).read()
     return json.loads(response)
@@ -176,6 +181,14 @@ def fetch_book() -> BookResponse: ...
 ```
 ````
 
+<!--
+Let's move the data on top, as we wanna work with it
+TypedDict has numerous advantages over dict 
+
+- typechecks (free automated tests) and better code completion by IDEs 
+- this won't be a talk about typing python (ref to typing talk here!)
+-->
+
 ---
 layout: center
 hideInToc: true
@@ -186,6 +199,10 @@ hideInToc: true
 <hr>
 
 ![](images/01_editor_helpers.png)
+
+<!--
+This is an example from VIM, but works with all modern IDEs
+-->
 
 ---
 layout: image-left
@@ -211,17 +228,21 @@ hideInToc: true
 
 </v-clicks>
 
+<!--
+THAT is the librarian of the Unseen University. He's nameless (if he had a name, he would be able to turn back human)
+-->
+
 ---
 
 ## Batching
 
-<br> <hr> <br>
+<hr> <br>
 
 ````md magic-move
 ```python
 """
 Sometimes google/ddg brings one to this or similar stackoverflow
-solutions
+solutions¹
 """
 
 def batched(some_list: list, size: int = 2) -> list[tuple]:
@@ -268,11 +289,7 @@ def only_save_non_duplicates() -> None:
 ```
 
 ```python
-from csv import DictWriter
 from itertools import batched
-
-
-LIBRARY_DB = "library_raw.csv"
 
 
 def only_save_non_duplicates() -> None:
@@ -285,6 +302,23 @@ def only_save_non_duplicates() -> None:
 
     for batch in batched(lib, 10):
         do_stuff_with_books(batch)
+```
+
+```python
+from itertools import batched
+
+
+LIBRARY_DB = "library_raw.csv"
+
+
+def only_save_non_duplicates() -> None:
+    """
+    Use a (yet to introduce) filter function to check
+    10 books at a time and filter out the non-duplicates
+    """
+    lib = fetch_library()
+
+    lib_db = Path(LIBRARY_DB)
 ```
 
 ```python
@@ -312,6 +346,20 @@ def only_save_non_duplicates() -> None:
 ```
 ````
 
+¹<small>
+    <i>(e.g.: [stackoverflow/312443](https://stackoverflow.com/questions/312443/how-do-i-split-a-list-into-equally-sized-chunks))</i>
+</small>
+
+<!--
+- typical batch function - seen it numerous times
+
+- We now want to process duplicates
+ 
+- only yield unique books
+
+- as similar books are in similar parts of the library we can search in batches
+-->
+
 ---
 layout: center
 hideInToc: true
@@ -320,19 +368,47 @@ hideInToc: true
 ## Great :) - this should work now for future tasks
 
 ---
-layout: center
+layout: two-cols
 hideInToc: true
 ---
 
+<br> 
+<br> 
+<br> 
+<br> 
+<br> 
+<br> 
+
 ## Summary
+
+<br> 
+<br> 
 
 ### Which modules did we learn about?
 
-<br> <hr> <br>
+::right::
+
+<br> 
+<br> 
+<br> 
+<br> 
+<br> 
+<br> 
+
+### Trivial
+
+<br> 
+<hr> 
+<br> 
 
 - csv
 - json
 - TypedDict
+
+<!--
+Let's be honest: These are the trivial modules you very likely already 
+know
+-->
 
 ---
 layout: center
@@ -351,6 +427,13 @@ hideInToc: true
 
 </v-clicks>
 
+<!--
+as one might think due to all the alternatives
+
+POST via setting data -> done
+Query params via URL ;)
+-->
+
 ---
 layout: center
 hideInToc: true
@@ -365,7 +448,7 @@ hideInToc: true
 - basically works like `mylist[from:to:steps]`
 - but also works on Generators with unknown size :)
 - cannot go backwards or use negative indizes:
-    - works: `mylist[::-1]`
+    - works: `mylist[::-1]` (reversing a list)
     - doesn't work: `islice(mygenerator, start=-9, step=-3)`
 
 </v-clicks>
@@ -386,4 +469,3 @@ hideInToc: true
 - delivers `tuple[T]` of size `n`
 
 </v-clicks>
-
