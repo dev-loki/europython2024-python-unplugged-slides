@@ -4,6 +4,7 @@ layout: center
 
 # Chapter 3: Summarize and key data
 
+<hr>
 
 _Now the wonderful librarian wants us to get some data to get to know_
 _in which dimensions we're working here?_
@@ -16,9 +17,9 @@ layout: center
 
 We want to have list of words in all the titles.
 
-<v-click>
-
 <hr>
+
+<v-click>
 
 Very simple example Example
 
@@ -31,6 +32,8 @@ Very simple example Example
 ---
 
 ### Count Words
+
+<hr>
 
 ````md magic-move
 ```python
@@ -116,7 +119,6 @@ layout: center
 ---
 
 ````md magic-move
-
 ```python
 from collections import defaultdict
 
@@ -242,6 +244,8 @@ layout: center
 ---
 
 Let's add some more data:
+
+<hr>
 
 <v-clicks>
 
@@ -418,26 +422,23 @@ layout: center
 
 ## But the librarian changed requirements again... 
 
+<hr>
+
 :/ 
 
 _"I want the total lenders, families & unlent_books"_
-
 
 ---
 layout: center
 ---
 
 ````md magic-move
-
 ```python
 def total_unique_lenders(books: Iterable[BookResponse]) -> int: ... 
 
 def family_list(books: Iterable[BookResponse]) -> list[str]: ... 
 
 def unlent_books_count(books: Iterable[BookResponse]) -> int: ...
-
-
-
 ```
 
 ```python {8-11}
@@ -492,7 +493,6 @@ def gather_statistics(books: Iterable[BookResponse]) -> Statistics:
         unlent_books = unlent_books_count(all_books),
     )
 ```
-
 ````
 
 ---
@@ -501,6 +501,8 @@ layout: center
 
 ## Reduced Tee
 
+<hr>
+
 <v-clicks>
 
 1. `itertools.reduce`
@@ -508,15 +510,15 @@ layout: center
 
 </v-clicks>
 
-
 ---
 layout: center
 ---
 
 ### Let's reduce this
 
-````md magic-move
+<hr>
 
+````md magic-move
 ```python {7-11}
 def total_unique_lenders(books: Iterable[BookResponse]) -> int: ... 
 def family_list(books: Iterable[BookResponse]) -> list[str]: ... 
@@ -591,7 +593,6 @@ def gather_statistics(books: Iterable[BookResponse]) -> Statistics:
         unlent_books = accumulated_stats.unlent,
     )
 ```
-
 ````
 
 ---
@@ -602,6 +603,8 @@ backgroundSize: contain
 
 ### How about tee?
 
+<hr>
+
 _Maybe our computation is not CPU bound, but IO bound?_
 
 ---
@@ -611,6 +614,8 @@ backgroundSize: contain
 ---
 
 ### tee!
+
+<hr>
 
 ````md magic-move
 ```python
@@ -660,6 +665,8 @@ backgroundSize: contain
 ---
 
 ### tee: caveats
+
+<hr>
 
 <v-clicks depth="2">
 

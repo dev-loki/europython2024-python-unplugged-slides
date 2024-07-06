@@ -5,6 +5,8 @@ image: images/fetching-data.png
 
 # Chapter 1: Fetching data
 
+<hr>
+
 <style>
 h1 {
     margin-top: 50% !important;
@@ -16,6 +18,8 @@ h1 {
 ---
 
 ### Fetching data
+
+<hr>
 
 ````md magic-move
 ```python
@@ -82,6 +86,8 @@ fetch_book() == dict(
 ---
 
 ### Data
+
+<hr>
 
 ````md magic-move
 ```python
@@ -176,6 +182,8 @@ layout: center
 
 ### This is what it looks like
 
+<hr>
+
 ![](images/01_editor_helpers.png)
 
 ---
@@ -204,6 +212,8 @@ image: images/orang-utan-library.png
 ---
 
 ### Batching: Code
+
+<hr> 
 
 ````md magic-move
 ```python
@@ -312,6 +322,8 @@ layout: center
 
 ### Summary: Which modules did we learn about?
 
+<hr> 
+
 #### Trivial:
 
 - csv
@@ -323,6 +335,8 @@ layout: center
 ---
 
 #### urllib.requests
+
+<hr> 
 
 <v-clicks>
 
@@ -337,6 +351,8 @@ layout: center
 ---
 
 #### itertools.islice
+
+<hr> 
 
 <v-clicks depth="2">
 
@@ -353,6 +369,8 @@ layout: center
 ---
 
 #### itertools.batched
+
+<hr> 
 
 <v-clicks>
 

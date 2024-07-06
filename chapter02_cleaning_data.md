@@ -5,6 +5,8 @@ image: images/data-cleaning.png
 
 # Chapter 2: Cleaning data
 
+<hr> 
+
 <v-click>
 
 _(wrong universe again - I know)_
@@ -17,6 +19,8 @@ image: images/magic-cooking-book-duplicate.png
 ---
 
 ## Duplicate books
+
+<hr> 
 
 <v-clicks depth="2">
 
@@ -155,6 +159,8 @@ layout: center
 
 #### pairwise
 
+<hr> 
+
 <v-clicks>
 
 - Signature: `def pairwise(iterable: Iterable[T]) -> Iterable[tuple[T, T]]`
@@ -168,6 +174,8 @@ layout: center
 ---
 
 #### chain
+
+<hr> 
 
 <v-clicks>
 
@@ -184,6 +192,8 @@ layout: center
 ---
 
 ## Saving the deduplicated data
+
+<hr> 
 
 Basically just an excuse to show grouping of contextmanagers
 
@@ -213,7 +223,7 @@ layout: center
 
 ### Remove the books we cannot get back
 
----
+<hr> 
 
 ````md magic-move
 ```python
@@ -297,6 +307,8 @@ image: images/orang-utan-doctor.png
 
 ## Doctest - to the rescue
 
+<hr> 
+
 ```python
 """Lets start with the same function, but add some
 minimal documentation"""
@@ -342,6 +354,8 @@ image: images/orang-utan-doctor.png
 ---
 
 Long story short: lets fix it!
+
+<hr> 
 
 ````md magic-move
 ```python
@@ -393,6 +407,8 @@ def extract_year(morporkyear: str) -> int:
 ---
 
 ### 🕵️ Let's continue hiding the duplicates 
+
+<hr> 
 
 ````md magic-move
 ```python
@@ -539,6 +555,8 @@ layout: center
 
 ### Summary
 
+<hr> 
+
 <v-clicks depth="2">
 
 - Generators `yield` values
@@ -561,9 +579,7 @@ layout: two-cols
 
 ### 🤓 But how would I do it?
 
-<br>
-<br>
-<br>
+<hr>
 
 <v-clicks>
 

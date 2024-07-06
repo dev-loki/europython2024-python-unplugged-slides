@@ -16,6 +16,8 @@ image: images/python-mining-for-batteries.webp
 
 # Python unplugged
 
+<hr>
+
 #### Mining for hidden batteries
 
 ---
@@ -25,6 +27,8 @@ backgroundSize: contain
 ---
 
 # \$ whoami
+
+<hr>
 
 **name:** Torsten
 
@@ -44,6 +48,8 @@ layout: center
 
 # What problem am I trying to solve here?
 
+<hr>
+
 <v-clicks depth="2">
 
 - learn the possibilities of the built in standard library
@@ -61,6 +67,8 @@ layout: center
 
 # What am I NOT trying to solve?
 
+<hr>
+
 <v-clicks>
 
 - Performance issues
@@ -75,6 +83,8 @@ layout: center
 ---
 
 # Outline
+
+<hr>
 
 <Toc maxDepth="2" columns="2" />
 
