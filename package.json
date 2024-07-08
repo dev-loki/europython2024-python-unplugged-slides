@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@slidev/cli": "^0.49.11",
+    "@slidev/theme-apple-basic": "^0.25.1",
     "@slidev/theme-default": "latest",
     "@slidev/theme-seriph": "latest",
     "slidev-theme-academic": "^1.3.0",

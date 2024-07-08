@@ -2,10 +2,7 @@
 
 ## Bunny Anmerkungen
 
-- [x] 39 Chainmap?
-- [x] 40 "Besser machen" & Fixen
-- [ ] 46 Besser machen
-- [ ] Batching: Function name ist falsch -> nicht duplicate
+- [ ] Batching: Function name ist falsch -> nicht duplicate: mark a
 - [ ] Bei "data again" vlt noch ein Spruch "I just love data"
 - [ ] Book Response highlight line
 - [ ] Flaten the list -> besseres Beispiel
@@ -18,6 +15,9 @@
 - [ ] remove booky we cannot get back: ganz am anfang: wirkte erst wie ein echter fehler; mehr obvious schauspielern?
 - [ ] requirements änderung dingens: authors name, abstract 
 - [ ] with suppress in "Misc"
+- [x] 46 Besser machen
+- [x] 39 Chainmap?
+- [x] 40 "Besser machen" & Fixen
 - [x] Folie 22: Destructuring Beispiel hinzufügen
 - [x] Folie 22: Erklärung fehlt
 - [x] Folie 25: Wird ein Objekt dargestellt, aber ein anderes

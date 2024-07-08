@@ -11,6 +11,9 @@ importers:
       '@slidev/cli':
         specifier: ^0.49.11
         version: 0.49.11(@babel/parser@7.24.7)(@nuxt/kit@3.12.2(rollup@4.18.0))(@types/markdown-it@14.1.1)(@types/node@18.19.39)(@vue/compiler-sfc@3.4.30)(postcss@8.4.38)(rollup@4.18.0)(vue-template-compiler@2.7.16)
+      '@slidev/theme-apple-basic':
+        specifier: ^0.25.1
+        version: 0.25.1
       '@slidev/theme-default':
         specifier: latest
         version: 0.25.0
@@ -593,6 +596,10 @@ packages:
 
   '@slidev/rough-notation@0.1.0':
     resolution: {integrity: sha512-a/CbVmjuoO3E4JbUr2HOTsXndbcrdLWOM+ajbSQIY3gmLFzhjeXHGksGcp1NZ08pJjLZyTCxfz1C7v/ltJqycA==}
+
+  '@slidev/theme-apple-basic@0.25.1':
+    resolution: {integrity: sha512-saA5yYui+jTT13tP+QJKnWeM8sK0IA1iln2E3sWAJsfKdQHUD3fw8+AlUHLUH6yc8NPq3ewtZcwWx49a/iF8Tg==}
+    engines: {node: '>=14.0.0', slidev: '>=v0.47.0'}
 
   '@slidev/theme-default@0.25.0':
     resolution: {integrity: sha512-iWvthH1Ny+i6gTwRnEeeU+EiqsHC56UdEO45bqLSNmymRAOWkKUJ/M0o7iahLzHSXsiPu71B7C715WxqjXk2hw==}
@@ -3879,6 +3886,12 @@ snapshots:
   '@slidev/rough-notation@0.1.0':
     dependencies:
       roughjs: 4.6.6
+
+  '@slidev/theme-apple-basic@0.25.1':
+    dependencies:
+      '@slidev/types': 0.47.5
+      codemirror-theme-vars: 0.1.2
+      prism-theme-vars: 0.2.5
 
   '@slidev/theme-default@0.25.0':
     dependencies:

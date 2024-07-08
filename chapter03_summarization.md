@@ -584,7 +584,7 @@ backgroundSize: contain
 
 ### How about tee?
 
-<hr>
+<br><hr><br>
 
 _Maybe our computation is not CPU bound, but IO bound?_
 
@@ -594,18 +594,32 @@ image: images/tee-tea-python.png
 backgroundSize: contain
 ---
 
-### tee!
-
-<hr>
+<hr><br>
 
 ````md magic-move
-```python
+```python {1-5|11-18}
+"""We still have these - will hide them in the next slide"""
 def unique_lenders(...): ...
 def family_list(...): ...
 def unlent_books_count(...): ...
-
-
 class Statistics(NamedTuple): ...
+
+
+def gather_statistics(
+    books: Iterable[BookResponse]
+) -> Statistics:
+    """And we still call them one after another:"""
+    all_books = list(books)
+
+    return Statistics(
+        unique_lenders=unique_lenders(all_books),
+        families=family_list(all_books),
+        unlent_books=unlent_books_count(all_books),
+    )
+```
+```python {1,2}
+"""First step again: Importing"""
+from itertools import tee
 
 
 def gather_statistics(
@@ -619,8 +633,7 @@ def gather_statistics(
         unlent_books=unlent_books_count(all_books),
     )
 ```
-
-```python {all|1|1,9|1,9,12-14}
+```python {9,10|9,10,13-16}
 from itertools import tee
 
 
@@ -629,9 +642,11 @@ def gather_statistics(
 ) -> Statistics:
     all_books = list(books)
 
+    """Now we create 3 "references" of the generator"""
     books_1, books_2, books_3 = tee(books, n=3)
 
     return Statistics(
+        """And use those here"""
         unique_lenders=unique_lenders(books_1),
         families=family_list(books_2),
         unlent_books=unlent_books_count(books_3),
@@ -645,15 +660,18 @@ image: images/tee-tea-python.png
 backgroundSize: contain
 ---
 
-### tee: caveats
+### Tee caveats
 
-<hr>
+<br><hr><br>
 
 <v-clicks depth="2">
 
-- `tee` is not thread safe: it might cause `RuntimeError`!
-- if the 3 generators advance in very different speed:
+1. You might not to consume the source generator -> will move forward without the `tees` to catch up
+2. `tee` is not thread safe: it might cause `RuntimeError` if used in a threading/async environment!
+    - Not standard vanilla python, but for easy `async` and threading usage: `asyncstdlib`
+    - I have a vanilla python implementation with `Queue` and `deque` in my repository
+3. if the 3 generators advance in very different speed:
     - A lot of space is used to cache the values the other iterators did not get to (yet)
-- We could build our own threadsafe tee? -> code example using `queue.Queue` in the repository
+4. We could build our own threadsafe tee? -> code example using `queue.Queue` in the repository
 
 </v-clicks>

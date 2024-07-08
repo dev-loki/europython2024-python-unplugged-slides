@@ -275,24 +275,22 @@ But why reinvent the wheel?
 """
 from itertools import batched
 ```
-
 ```python
 from itertools import batched  # we keep this -> we need it later
 
 
-def only_save_non_duplicates() -> None:
+def work_on_the_library() -> None:
     """
     Imagine we enhanced our fetch_library
     to actually stream the books from library
     """
     lib = fetch_library() # this is a generator
 ```
-
 ```python
 from itertools import batched
 
 
-def only_save_non_duplicates() -> None:
+def work_on_the_library() -> None:
     """
     Using the batched function:
      - iterate through the library
@@ -303,24 +301,6 @@ def only_save_non_duplicates() -> None:
     for batch in batched(lib, 10):
         do_stuff_with_books(batch)
 ```
-
-```python
-from itertools import batched
-
-
-LIBRARY_DB = "library_raw.csv"
-
-
-def only_save_non_duplicates() -> None:
-    """
-    Use a (yet to introduce) filter function to check
-    10 books at a time and filter out the non-duplicates
-    """
-    lib = fetch_library()
-
-    lib_db = Path(LIBRARY_DB)
-```
-
 ```python
 from csv import DictWriter
 from itertools import batched
@@ -330,7 +310,7 @@ LIBRARY_DB = "library_raw.csv"
 BOOK_COLS = BookResponse.__annotations.__.keys()
 
 
-def only_save_non_duplicates() -> None:
+def work_on_the_library() -> None:
     """
     Use a (yet to introduce) filter function to check
     10 books at a time and filter out the non-duplicates

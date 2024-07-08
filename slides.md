@@ -1,5 +1,6 @@
 ---
-theme: academic
+theme: apple-basic
+# theme: academic
 background: david-clode-oJlt2XBWuWs-unsplash.jpg
 title: "Python unplugged: Mining for hidden batteries"
 info: ""
