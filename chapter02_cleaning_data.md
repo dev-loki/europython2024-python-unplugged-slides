@@ -66,8 +66,7 @@ def only_save_non_duplicates() -> None:
         for batch in batched(lib, 10):
             writer.writerows(batch)
 ```
-
-```python
+```python {11,12,20}
 from csv import DictWriter
 from itertools import batched
 
@@ -90,8 +89,7 @@ def only_save_non_duplicates() -> None:
             for book in filter_double_books(batch):
                 writer.writerows(batch)
 ```
-
-```python
+```python {10-11|12,20-24}
 from csv import DictWriter
 
 
@@ -100,6 +98,11 @@ COLUMNS = BookResponse.__annotations.__.keys()
 
 
 def only_save_non_duplicates() -> None:
+    """
+    As we watch our code run, we recognize, that
+    Books always duplicate in pairs!
+    Naive approach
+    """
     book_gen = fetch_library()
 
     with Path(LIBRARY_DB).open("w") as file:
@@ -112,8 +115,7 @@ def only_save_non_duplicates() -> None:
                 writer.writerow(book_gen)
             last_book = book
 ```
-
-```python
+```python {10-12|2|19-21}
 from csv import DictWriter
 from itertools import pairwise
 
@@ -123,6 +125,9 @@ COLUMNS = BookResponse.__annotations.__.keys()
 
 
 def only_save_non_duplicates() -> None:
+    """
+    But: We can use pairwise for that
+    """
     book_gen = fetch_library()
 
     with Path(LIBRARY_DB).open("w") as file:
@@ -133,8 +138,7 @@ def only_save_non_duplicates() -> None:
             if book != book2:
                 writer.writerow(book_gen)
 ```
-
-```python
+```python {11,10-22|24-26}
 from csv import DictWriter
 from itertools import pairwise
 
@@ -144,6 +148,9 @@ COLUMNS = BookResponse.__annotations.__.keys()
 
 
 def only_save_non_duplicates() -> None:
+    """
+    Problem: We don't get the last book!
+    """
     book_gen = fetch_library()
 
     with Path(LIBRARY_DB).open("w") as file:
@@ -159,7 +166,31 @@ def only_save_non_duplicates() -> None:
         if book2 and book != book2:
             writer.writerow(book2)
 ```
-```python
+```python {11,12,20}
+from csv import DictWriter
+from itertools import chain
+
+
+LIBRARY_DB = "library_raw.csv"
+COLUMNS = BookResponse.__annotations.__.keys()
+
+
+def only_save_non_duplicates() -> None:
+    """
+    We can also use destructuring, but this would 
+    defy the purpose of a generator
+    """
+    book_gen = fetch_library()
+
+    with Path(LIBRARY_DB).open("w") as file:
+        writer = DictWriter(file, fieldnames=COLUMNS)
+        writer.writeheader()
+
+        for book, book2 in pairwise([None, *lib]):
+            if book != book2:
+                writer.writerow(book2)
+```
+```python {2,11,12|20}
 from csv import DictWriter
 from itertools import chain, pairwise
 
@@ -169,6 +200,10 @@ COLUMNS = BookResponse.__annotations.__.keys()
 
 
 def only_save_non_duplicates() -> None:
+    """
+    chain to the rescue!
+    It lazily chains multiple iterators without effort
+    """
     book_gen = fetch_library()
 
     with Path(LIBRARY_DB).open("w") as file:
@@ -189,17 +224,18 @@ We have written this basic code to just save the data from "magic funnel" to CSV
 
 ---
 layout: center
+hideInToc: true
 ---
 
-### What new modules did we learn about?
+## What new modules did we learn about?
 
 ---
 layout: center
 ---
 
-#### pairwise
+### pairwise
 
-<hr> 
+<br><hr><br>
 
 <v-clicks>
 
@@ -213,17 +249,39 @@ layout: center
 layout: center
 ---
 
-#### chain
+### chain
 
-<hr> 
+<br><hr><br>
 
 <v-clicks>
 
 - Chains together multiple iterables
 - From this `list(chain('Hello', 'World'))` ...
     - We get this `['H', 'e', 'l', 'l', 'o', 'W', 'o', 'r', 'l', 'd']`
-- Advantage: it's lazy and doesn't create a new object, like:
+- Advantage: it's lazy and doesn't create a large¹ object, like:
     - `combined_list = [*my_list, *my_other_list]`
+    - ¹(not large means: it only holds references)
+
+</v-clicks>
+
+---
+layout: center
+---
+
+### ChainMap
+
+<br><hr><br>
+
+_For the brevity of completeness..._
+
+<v-clicks>
+
+- There is also `itertools.ChainMap`
+- Works similar to `chain`:
+- `cm = ChainMap({"a": 1}, {"b": 2}, {"a": 3})` gives us:
+    - `cm["a"] == 1` (Not `3`!)
+    - `cm["b"] == 2`
+    - `cm["c"] --> KeyError`
 
 </v-clicks>
 

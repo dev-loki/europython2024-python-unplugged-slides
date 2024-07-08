@@ -125,7 +125,7 @@ hideInToc: true
 
 - Who is familiar with _Terry Pratchett_?
 - We are working on a project Ankh Morpork
-- And the "Unseen Library" and it's librarian finalyl want
+- And the "Unseen Library" and it's librarian finally want
   to implement some digitalisation magic
 - The first step is, that we already have some API \**cough*\* magic funnel
   sending us the book data. One by one.

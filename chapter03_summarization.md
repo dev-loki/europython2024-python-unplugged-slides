@@ -6,8 +6,7 @@ layout: center
 
 <hr>
 
-_Now the wonderful librarian wants us to get some data to get to know_
-_in which dimensions we're working here?_
+_Now the wonderful librarian wants us to get some data to get to know in which dimensions we're working here?_
 
 ---
 layout: center
@@ -250,13 +249,10 @@ hideInToc: true
 
 <v-clicks>
 
- - min lent year (We all know this `min(x for x in thing)`)
- - max lent year (`max(x for x in thing)`)
- - family which lent the most
- - largest book shelve in the library
- - use the data to store some books directly at the counter:
-   ChainMap first the local, then the large and last the other branches
-   - maybe delete books from all the libraries (DeepChainMap example)
+ - min lent year (We all know this `min(x for x in thing)` - trivial)
+ - max lent year (`max(x for x in thing)` - trivial)
+ - family which lent the most (little bit more interesting)
+ - largest book shelve in the library (let's see)
 
 </v-clicks>
 
@@ -265,7 +261,15 @@ layout: center
 ---
 
 ````md magic-move
-```python {all|1|2|4-6|8,9|10-13|15-16}
+```python
+def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
+    books_by_family_name = {}
+
+    for book in books:
+        if not book['lent_by']:
+            continue
+```
+```python
 def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
     books_by_family_name = {}
 
@@ -275,118 +279,94 @@ def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
 
         names_split = book['lent_by'].split()
         family_name = names_split[1]
-        if family_name not in books_by_family_name:
-            books_by_family_name[family_name] = 1
+```
+```python
+def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
+    books_by_family_name = {}
+
+    for book in books:
+        if not book['lent_by']:
+            continue
+
+        _, family = book['lent_by'].split(maxsplit=2)
+```
+```python
+def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
+    books_by_family = {}
+
+    for book in books:
+        if not book['lent_by']:
+            continue
+
+        _, family = book['lent_by'].split(maxsplit=2)
+        if family not in books_by_family_name:
+            books_by_family[family] = 1
         else:
-            books_by_family_name[family_name] += 1
-
-    family = max(books_by_family_name, key=books_by_family_name.get)
-    return family, books_by_family_name[family]
+            books_by_family[family] += 1
 ```
-
-```python {2,10}
+```python
 def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
-    books_by_family_name = defaultdict(int)
+    books_by_family_name = {}
 
     for book in books:
         if not book['lent_by']:
             continue
 
-        names_split = book['lent_by'].split()
-        family_name = names_split[1]
-        books_by_family_name[family_name] += 1
+        _, family = book['lent_by'].split(maxsplit=2)
+        if family not in books_by_family:
+            books_by_family[family] = 1
+        else:
+            books_by_family[family] += 1
 
-    family = max(books_by_family_name, key=books_by_family_name.get)
-    return family, books_by_family_name[family]
+    family = max(
+        books_by_family.items(), 
+        key=books_by_family.get,
+    )
+    return family, books_by_family[family]
 ```
 
-```python {1-5}
-from itertools import groupby
-
-
-def family_name(book: BookResponse) -> str:
-    return book['lent_by'].split()[1]
-
-
+```python
 def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
-    books_by_family_name = defaultdict(int)
+    """Again: defaultdict is a sensible choice"""
+    books_by_family = defaultdict(int)
 
     for book in books:
         if not book['lent_by']:
             continue
 
-        names_split = book['lent_by'].split()
-        family_name = names_split[1]
-        books_by_family_name[family_name] += 1
+        _, family = book['lent_by'].split(maxsplit=2)
+        books_by_family[family] += 1
 
-    family = max(books_by_family_name, key=books_by_family_name.get)
-    return family, books_by_family_name[family]
+    family = max(
+        books_by_family.items(), 
+        key=books_by_family.get,
+    )
+    return family, books_by_family[family]
 ```
-
-```python {1-5|11-12|14|15-16|18}
-from itertools import groupby
-
-
-def family_name(book: BookResponse) -> str:
-    return book['lent_by'].split()[1]
-
-
-def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
-    books_by_family_name = groupby(books, key=family_name)
-    
-    biggest_lender = None
-    size = 0
-    for family, lent_books in books_by_family_name:
-        if len(lent_books) > size:
-            biggest_lender = family
-            size = len(lent_books)
-
-    return biggest_lender, size
-```
-
-```python {9-10}
-from itertools import groupby
-
-
-def family_name(book: BookResponse) -> str:
-    return book['lent_by'].split()[1]
-
-
-def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
-    lent_books = (b for b in books if b['lent_by'])
-    books_by_family_name = groupby(lent_books, key=family_name)
-    
-    biggest_lender = None
-    size = 0
-    for family, lent_books in books_by_family_name:
-        if len(lent_books) > size:
-            biggest_lender = family
-            size = len(lent_books)
-
-    return biggest_lender, size
-```
-
 ```python {12-16}
+"""
+Let's see how we could do it with groupby
+"""
 from itertools import groupby
 
 
 def family_name(book: BookResponse) -> str:
+    """Let's create a functio for this"""
     return book['lent_by'].split()[1]
 
 
 def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
+    """... and check for the largest size"""
     lent_books = (b for b in books if b['lent_by'])
     books_by_family_name = groupby(lent_books, key=family_name)
-    
-    biggest_lender, size = max(
-        ((family, len(books)) for family, books in books_by_family_name),
-        key=lambda x: x[1],  # select the books count for comparison
-        default=(None, 0),
+
+    family = max(
+        books_by_family_name,
+        key=books_by_family_name.get,
     )
 
-    return biggest_lender, size
+    return family, len(books_by_family_name[family])
 ```
-
 ```python {12-16}
 from itertools import groupby
 
@@ -404,15 +384,13 @@ def family_lent_the_most(books: Iterable[BookResponse]) -> BiggestLender:
     lent_books = (b for b in books if b['lent_by'])
     books_by_family_name = groupby(lent_books, key=family_name)
     
-    biggest_lender, size = max(
-        ((family, len(books)) for family, books in books_by_family_name),
-        key=lambda x: x[1],  # select the books count for comparison
-        default=(None, 0),
+    family = max(
+        books_by_family_name,
+        key=books_by_family_name.get,
     )
 
-    return BiggestLender(biggest_lender, size)
+    return BiggestLender(family, len(books_by_family_name['family']))
 ```
-
 ````
 
 ---
@@ -555,7 +533,10 @@ class StatisticsAccumulator:
     unlent: int = 0
 
 
-def statistics_reducer(acc: StatisticsAccumulator, book: BookResponse) -> StatisticsAccumulator:
+def statistics_reducer(
+    acc: StatisticsAccumulator,
+    book: BookResponse,
+) -> StatisticsAccumulator:
     if book['lent_by']:
         acc.lenders.add(book['lent_by'])
         acc.families.add(family_name(book))
@@ -566,7 +547,6 @@ def statistics_reducer(acc: StatisticsAccumulator, book: BookResponse) -> Statis
 
 def gather_statistics(books: Iterable[BookResponse]) -> Statistics:
     ...
-
 ```
 
 ```python {15,17-21}
@@ -580,8 +560,10 @@ class Statistics(NamedTuple): ...
 class StatisticsAccumulator: ...
 
 
-def statistics_reducer(acc: StatisticsAccumulator, book: BookResponse) -> StatisticsAccumulator:
-    ...
+def statistics_reducer(
+    acc: StatisticsAccumulator,
+    book: BookResponse,
+) -> StatisticsAccumulator: ...
 
 def gather_statistics(books: Iterable[BookResponse]) -> Statistics:
     accumulated_stats = reduce(statistics_reducer, books, StatisticsAccumulator())
