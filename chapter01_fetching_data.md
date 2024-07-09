@@ -88,8 +88,6 @@ fetch_book() == dict(
 -->
 
 ---
-hideInToc: true
----
 
 ## Working with data
 
@@ -191,7 +189,6 @@ TypedDict has numerous advantages over dict
 
 ---
 layout: center
-hideInToc: true
 ---
 
 ## This is what it looks like
@@ -207,7 +204,6 @@ This is an example from VIM, but works with all modern IDEs
 ---
 layout: image-left
 image: images/orang-utan-library.png
-hideInToc: true
 ---
 
 ## Let's continue
@@ -342,14 +338,12 @@ def work_on_the_library() -> None:
 
 ---
 layout: center
-hideInToc: true
 ---
 
 ## Great :) - this should work now for future tasks
 
 ---
 layout: two-cols
-hideInToc: true
 ---
 
 <br> 
@@ -381,9 +375,13 @@ hideInToc: true
 <hr> 
 <br> 
 
+<v-clicks>
+
 - csv
 - json
 - TypedDict
+
+</v-clicks>
 
 <!--
 Let's be honest: These are the trivial modules you very likely already 
@@ -392,18 +390,18 @@ know
 
 ---
 layout: center
-hideInToc: true
 ---
 
 ## urllib.requests
 
-<br> <hr> <br>
+<br><hr><br>
 
 <v-clicks>
 
 - fetch and send data
-- restricted to GET/POST
-- not as bad to use as one might think
+- restricted to `GET`/`POST` (POST by setting the `data` parameter)
+- not as bad to use as one might think,
+  considering the vast amount of modules to replace it
 
 </v-clicks>
 
@@ -416,12 +414,11 @@ Query params via URL ;)
 
 ---
 layout: center
-hideInToc: true
 ---
 
 ## itertools.islice
 
-<br> <hr> <br>
+<br><hr><br>
 
 <v-clicks depth="2">
 
@@ -435,7 +432,6 @@ hideInToc: true
 
 ---
 layout: center
-hideInToc: true
 ---
 
 ## itertools.batched

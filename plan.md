@@ -2,20 +2,14 @@
 
 ## Bunny Anmerkungen
 
-- [ ] Batching: Function name ist falsch -> nicht duplicate: mark a
-- [ ] Bei "data again" vlt noch ein Spruch "I just love data"
-- [ ] Book Response highlight line
-- [ ] Flaten the list -> besseres Beispiel
-- [ ] Let's continue: zauberspruch?
-- [ ] Summary chain: Dinge größer machen
-- [ ] Summary: "wonky"
-- [ ] duplicate book nerd witz rausnehmen?
-- [ ] lets continue hiding lost vooks: erst war smiley merkwürdig, dann gewöhnt man sich dran
-- [ ] outline streichen
+- [x] Summary chain: Dinge größer machen
+- [x] outline streichen
 - [ ] remove booky we cannot get back: ganz am anfang: wirkte erst wie ein echter fehler; mehr obvious schauspielern?
 - [ ] requirements änderung dingens: authors name, abstract 
 - [ ] with suppress in "Misc"
+- [x] Bei "data again" vlt noch ein Spruch "I just love data"
 - [x] 46 Besser machen
+- [x] Batching: Function name ist falsch -> nicht duplicate: mark a
 - [x] 39 Chainmap?
 - [x] 40 "Besser machen" & Fixen
 - [x] Folie 22: Destructuring Beispiel hinzufügen

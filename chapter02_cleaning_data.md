@@ -15,7 +15,7 @@ image: images/data-cleaning.png
 
 <v-click>
 
-_(wrong universe again - I know)_
+_(wrong meme universe again - I know)_
 
 </v-click>
 
@@ -253,7 +253,7 @@ layout: center
 
 <br><hr><br>
 
-<v-clicks>
+<v-clicks depth="2">
 
 - Chains together multiple iterables
 - From this `list(chain('Hello', 'World'))` ...
@@ -261,6 +261,10 @@ layout: center
 - Advantage: it's lazy and doesn't create a large¹ object, like:
     - `combined_list = [*my_list, *my_other_list]`
     - ¹(not large means: it only holds references)
+- It can flatten lists: `chain.from_iterable()`
+    - `my_list = [[1,2,3], [3,4,5]]`
+    - `flattened = chain.from_iterable(my_list)`
+    - `assert list(flattened) == [1,2,3,3,4,5]`
 
 </v-clicks>
 

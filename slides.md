@@ -1,5 +1,5 @@
 ---
-theme: apple-basic
+theme: academic
 # theme: academic
 background: david-clode-oJlt2XBWuWs-unsplash.jpg
 title: "Python unplugged: Mining for hidden batteries"
@@ -9,7 +9,6 @@ highlighter: shiki
 colorSchema: light
 drawings:
   persist: false
-hideInToc: true
 mdc: true
 layout: image-right
 image: images/python-mining-for-batteries.webp
@@ -53,7 +52,6 @@ backgroundSize: contain
 -->
 
 ---
-hideInToc: true
 layout: center
 ---
 
@@ -78,7 +76,6 @@ layout: center
 -->
 
 ---
-hideInToc: true
 layout: center
 ---
 
@@ -101,21 +98,23 @@ layout: center
 -->
 
 ---
-hideInToc: true
 layout: center
 ---
 
-# Outline
+# Outline: 4 Chapters
 
 <br> <hr> <br>
 
-<Toc maxDepth="2" columns="2" />
+1. Fetching data
+2. Cleaning data
+3. Processing data
+4. Miscellaneus / Additional stuff (Might be dropped because of time)
+5. (Maybe some ASGI implementation)
 
 ---
 layout: image-right
 image: images/discworld.png
 backgroundSize: contain
-hideInToc: true
 ---
 
 # What's the story?
