@@ -2,11 +2,10 @@
 
 ## Bunny Anmerkungen
 
+- [ ] requirements änderung dingens: authors name, abstract
+- [ ] with suppress in "Misc"
 - [x] Summary chain: Dinge größer machen
 - [x] outline streichen
-- [ ] remove booky we cannot get back: ganz am anfang: wirkte erst wie ein echter fehler; mehr obvious schauspielern?
-- [ ] requirements änderung dingens: authors name, abstract 
-- [ ] with suppress in "Misc"
 - [x] Bei "data again" vlt noch ein Spruch "I just love data"
 - [x] 46 Besser machen
 - [x] Batching: Function name ist falsch -> nicht duplicate: mark a

@@ -31,11 +31,12 @@ image: images/magic-cooking-book-duplicate.png
 <v-clicks depth="2">
 
 - We want to fetch data from the library...
-- But as it is a magical library from Ankh Morpork, 
-  the books will duplicate!
+- But: Magical library. Means: the books will duplicate!
 - The orang utan librarian of the Unseen University wants the list of 
   unique books as CSV (obviously!)
-- This is **NOT** a leetcode talk ;) (So no fancy but obvious `O(1)` P in NP solution)
+- This is **NOT** a leetcode talk ;) 
+    - no fancy but obvious solution if P in NP
+    - also: no super clever text similarity or duplication algorithms
 
 </v-clicks>
 
@@ -53,39 +54,36 @@ from csv import DictWriter
 from itertools import batched
 
 
-LIBRARY_DB = "library_raw.csv"
+LIBRARY_DB = Path("library_raw.csv")
 COLUMNS = BookResponse.__annotations.__.keys()
 
 
 def only_save_non_duplicates() -> None:
     book_gen = fetch_library()
 
-    with Path(LIBRARY_DB).open("w") as file:
+    with LIBRARY_DB.open("w") as file:
         writer = DictWriter(file, fieldnames=COLUMNS)
         writer.writeheader()
         for batch in batched(lib, 10):
             writer.writerows(batch)
 ```
-```python {11,12,20}
+```python {16-18}
 from csv import DictWriter
 from itertools import batched
 
 
-LIBRARY_DB = "library_raw.csv"
+LIBRARY_DB = Path("library_raw.csv")
 COLUMNS = BookResponse.__annotations.__.keys()
 
 
-def only_save_non_duplicates() -> None:
-    """
-    Now we use a (yet to described) method to 
-    filter out the duplicates
-    """
+def only_save_non_du..plicates() -> None:
     book_gen = fetch_library()
 
-    with Path(LIBRARY_DB).open("w") as file:
+    with LIBRARY_DB.open("w") as file:
         writer = DictWriter(file, fieldnames=COLUMNS)
         writer.writeheader()
         for batch in batched(book_gen, 10):
+            """Filter out the duplicates:"""
             for book in filter_double_books(batch):
                 writer.writerows(batch)
 ```
@@ -93,7 +91,7 @@ def only_save_non_duplicates() -> None:
 from csv import DictWriter
 
 
-LIBRARY_DB = "library_raw.csv"
+LIBRARY_DB = Path("library_raw.csv")
 COLUMNS = BookResponse.__annotations.__.keys()
 
 
@@ -101,11 +99,11 @@ def only_save_non_duplicates() -> None:
     """
     As we watch our code run, we recognize, that
     Books always duplicate in pairs!
-    Naive approach
+    Naive approach incoming
     """
     book_gen = fetch_library()
 
-    with Path(LIBRARY_DB).open("w") as file:
+    with LIBRARY_DB.open("w") as file:
         writer = DictWriter(file, fieldnames=COLUMNS)
         writer.writeheader()
 
@@ -120,7 +118,7 @@ from csv import DictWriter
 from itertools import pairwise
 
 
-LIBRARY_DB = "library_raw.csv"
+LIBRARY_DB = Path("library_raw.csv")
 COLUMNS = BookResponse.__annotations.__.keys()
 
 
@@ -130,7 +128,7 @@ def only_save_non_duplicates() -> None:
     """
     book_gen = fetch_library()
 
-    with Path(LIBRARY_DB).open("w") as file:
+    with LIBRARY_DB.open("w") as file:
         writer = DictWriter(file, fieldnames=COLUMNS)
         writer.writeheader()
 
@@ -143,7 +141,7 @@ from csv import DictWriter
 from itertools import pairwise
 
 
-LIBRARY_DB = "library_raw.csv"
+LIBRARY_DB = Path("library_raw.csv")
 COLUMNS = BookResponse.__annotations.__.keys()
 
 
@@ -153,7 +151,7 @@ def only_save_non_duplicates() -> None:
     """
     book_gen = fetch_library()
 
-    with Path(LIBRARY_DB).open("w") as file:
+    with LIBRARY_DB.open("w") as file:
         writer = DictWriter(file, fieldnames=COLUMNS)
         writer.writeheader()
 
@@ -171,7 +169,7 @@ from csv import DictWriter
 from itertools import chain
 
 
-LIBRARY_DB = "library_raw.csv"
+LIBRARY_DB = Path("library_raw.csv")
 COLUMNS = BookResponse.__annotations.__.keys()
 
 
@@ -182,7 +180,7 @@ def only_save_non_duplicates() -> None:
     """
     book_gen = fetch_library()
 
-    with Path(LIBRARY_DB).open("w") as file:
+    with LIBRARY_DB.open("w") as file:
         writer = DictWriter(file, fieldnames=COLUMNS)
         writer.writeheader()
 
@@ -195,7 +193,7 @@ from csv import DictWriter
 from itertools import chain, pairwise
 
 
-LIBRARY_DB = "library_raw.csv"
+LIBRARY_DB = Path("library_raw.csv")
 COLUMNS = BookResponse.__annotations.__.keys()
 
 
@@ -206,7 +204,7 @@ def only_save_non_duplicates() -> None:
     """
     book_gen = fetch_library()
 
-    with Path(LIBRARY_DB).open("w") as file:
+    with LIBRARY_DB.open("w") as file:
         writer = DictWriter(file, fieldnames=COLUMNS)
         writer.writeheader()
 

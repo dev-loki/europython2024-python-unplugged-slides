@@ -399,11 +399,10 @@ layout: center
 
 ## But the librarian changed requirements again... 
 
-<hr>
-
+<br><hr><br>
 :/ 
 
-_"I want the total lenders, families & unlent_books"_
+_"ookh! ookh! (I want youthe total lenders, unique family names and amount of unlent_books)_
 
 ---
 layout: center
@@ -411,30 +410,34 @@ layout: center
 
 ````md magic-move
 ```python
+"""
+Our 3 extractions methods:
+"""
 def total_unique_lenders(books: Iterable[BookResponse]) -> int: ... 
 
-def family_list(books: Iterable[BookResponse]) -> list[str]: ... 
+def unique_families(books: Iterable[BookResponse]) -> set[str]: ... 
 
 def unlent_books_count(books: Iterable[BookResponse]) -> int: ...
 ```
-
-```python {8-11}
+```python {10-13}
+"""
+And we have here the Statistics object:
+- Again a Namedtuple, as it is nice to access and small in footprint
+"""
 def total_unique_lenders(books: Iterable[BookResponse]) -> int: ... 
-
-def family_list(books: Iterable[BookResponse]) -> list[str]: ... 
-
+def unique_families(books: Iterable[BookResponse]) -> set[str]: ... 
 def unlent_books_count(books: Iterable[BookResponse]) -> int: ...
 
 
 class Statistics(NamedTuple):
     unique_lenders: int
-    families: list[str]
+    families: set[str]
     unlent_books: int
 ```
 
 ```python {12-17}
 def total_unique_lenders(books: Iterable[BookResponse]) -> int: ... 
-def family_list(books: Iterable[BookResponse]) -> list[str]: ... 
+def unique_families(books: Iterable[BookResponse]) -> set[str]: ... 
 def unlent_books_count(books: Iterable[BookResponse]) -> int: ...
 
 
@@ -445,16 +448,19 @@ class Statistics(NamedTuple):
 
 
 def gather_statistics(books: Iterable[BookResponse]) -> Statistics:
+    """
+    Let's naively just call those functions. Sequentially!
+    -> What happens with the generator?
+    """
     return Statistics(
-        unique_lenders = total_unique_lenders(books),
-        families = family_list(books),
-        unlent_books = unlent_books_count(books),
+        unique_lenders=total_unique_lenders(books),
+        families=unique_families(books),
+        unlent_books=unlent_books_count(books),
     )
 ```
-
 ```python {12-16}
 def total_unique_lenders(books: Iterable[BookResponse]) -> int: ... 
-def family_list(books: Iterable[BookResponse]) -> list[str]: ... 
+def unique_families(books: Iterable[BookResponse]) -> set[str]: ... 
 def unlent_books_count(books: Iterable[BookResponse]) -> int: ...
 
 
@@ -462,23 +468,27 @@ class Statistics(NamedTuple): ...
 
 
 def gather_statistics(books: Iterable[BookResponse]) -> Statistics:
+    """This would solve that, right?"""
     all_books = list(books)
 
     return Statistics(
-        unique_lenders = total_unique_lenders(all_books),
-        families = family_list(all_books),
-        unlent_books = unlent_books_count(all_books),
+        unique_lenders=total_unique_lenders(all_books),
+        families=unique_families(all_books),
+        unlent_books=unlent_books_count(all_books),
     )
 ```
 ````
 
 ---
-layout: center
+layout: image-right
+image: images/reduced-tea.webp
 ---
 
 ## Reduced Tee
 
-<hr>
+<br> <hr> <br>
+
+Two tools which might help us:
 
 <v-clicks>
 
@@ -487,24 +497,35 @@ layout: center
 
 </v-clicks>
 
+<v-click>
+
+<b>Let's start with reduce!</b>
+
+</v-click>
+
 ---
 layout: center
 ---
 
-### Let's reduce this
+### Solving this with reduce
 
 <hr>
 
 ````md magic-move
-```python {7-11}
+```python
 def total_unique_lenders(books: Iterable[BookResponse]) -> int: ... 
-def family_list(books: Iterable[BookResponse]) -> list[str]: ... 
+def unique_families(books: Iterable[BookResponse]) -> list[str]: ... 
 def unlent_books_count(books: Iterable[BookResponse]) -> int: ...
 
 class Statistics(NamedTuple): ...
 
-@dataclasses.dataclass
+
+@dataclasses.dataclass(slots=True)
 class StatisticsAccumulator:
+    """
+    First step: Adding some structure to accumulate our values
+    Needs to be something mutable!
+    """
     lenders: set[str] = set()
     families: set[str] = set()
     unlend: int = 0
@@ -513,15 +534,14 @@ def gather_statistics(books: Iterable[BookResponse]) -> Statistics:
     all_books = list(books)
 
     return Statistics(
-        unique_lenders = total_unique_lenders(all_books),
-        families = family_list(all_books),
-        unlent_books = unlent_books_count(all_books),
+        unique_lenders=total_unique_lenders(all_books),
+        families=unique_families(all_books),
+        unlent_books=unlent_books_count(all_books),
     )
 ```
-
-```python {14-21}
+```python
 def total_unique_lenders(books: Iterable[BookResponse]) -> int: ... 
-def family_list(books: Iterable[BookResponse]) -> list[str]: ... 
+def unique_families(books: Iterable[BookResponse]) -> list[str]: ... 
 def unlent_books_count(books: Iterable[BookResponse]) -> int: ...
 
 class Statistics(NamedTuple): ...
@@ -549,9 +569,9 @@ def gather_statistics(books: Iterable[BookResponse]) -> Statistics:
     ...
 ```
 
-```python {15,17-21}
+```python
 def total_unique_lenders(books: Iterable[BookResponse]) -> int: ... 
-def family_list(books: Iterable[BookResponse]) -> list[str]: ... 
+def unique_families(books: Iterable[BookResponse]) -> list[str]: ... 
 def unlent_books_count(books: Iterable[BookResponse]) -> int: ...
 
 class Statistics(NamedTuple): ...
@@ -598,9 +618,11 @@ backgroundSize: contain
 
 ````md magic-move
 ```python {1-5|11-18}
-"""We still have these - will hide them in the next slide"""
+"""
+We still have these - will hide them completely in the next slide
+"""
 def unique_lenders(...): ...
-def family_list(...): ...
+def unique_families(...): ...
 def unlent_books_count(...): ...
 class Statistics(NamedTuple): ...
 
@@ -613,7 +635,7 @@ def gather_statistics(
 
     return Statistics(
         unique_lenders=unique_lenders(all_books),
-        families=family_list(all_books),
+        families=unique_families(all_books),
         unlent_books=unlent_books_count(all_books),
     )
 ```
@@ -629,7 +651,7 @@ def gather_statistics(
 
     return Statistics(
         unique_lenders=unique_lenders(all_books),
-        families=family_list(all_books),
+        families=unique_families(all_books),
         unlent_books=unlent_books_count(all_books),
     )
 ```
@@ -648,7 +670,7 @@ def gather_statistics(
     return Statistics(
         """And use those here"""
         unique_lenders=unique_lenders(books_1),
-        families=family_list(books_2),
+        families=unique_families(books_2),
         unlent_books=unlent_books_count(books_3),
     )
 ```
@@ -666,11 +688,12 @@ backgroundSize: contain
 
 <v-clicks depth="2">
 
-1. You might not to consume the source generator -> will move forward without the `tees` to catch up
+1. You don't want to consume the source generator
+    - It will move forward without the `tees` to catch up!
 2. `tee` is not thread safe: it might cause `RuntimeError` if used in a threading/async environment!
     - Not standard vanilla python, but for easy `async` and threading usage: `asyncstdlib`
     - I have a vanilla python implementation with `Queue` and `deque` in my repository
-3. if the 3 generators advance in very different speed:
+3. If the 3 generators advance in very different speed:
     - A lot of space is used to cache the values the other iterators did not get to (yet)
 4. We could build our own threadsafe tee? -> code example using `queue.Queue` in the repository
 

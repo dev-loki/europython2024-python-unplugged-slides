@@ -119,13 +119,13 @@ backgroundSize: contain
 
 # What's the story?
 
-<hr> <br>
+<br><hr><br>
 
 <v-clicks>
 
 - Who is familiar with _Terry Pratchett_?
-- We are working on a project Ankh Morpork
-- And the "Unseen Library" and it's librarian finally want
+- We are working on a project in _Ankh Morpork_
+- The "Unseen Library" and it's librarian finally want
   to implement some digitalisation magic
 - The first step is, that we already have some API \**cough*\* magic funnel
   sending us the book data. One by one.
@@ -150,8 +150,11 @@ layout: center
     <source src="images/book-streaming.mp4" type="video/mp4">
 </SlidevVideo>
 
----
-layout: center
+<small><i>
+  \* I actually created a full (vanilla python) server and generator to
+  generate those books - And we most likely won't even see nor use it -.-'
+</i></small>
+
 ---
 
 ### Example book
@@ -175,7 +178,6 @@ by Distinguished Discworld Diner Kerfuffle Michael
               weapon in the enchanted forest. Time-worn treaties
               are broken.
 ```
-
 ```plain
 Puzzling Eating of the Golems
 by Senior Guildmaster Danielle Warren
