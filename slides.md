@@ -11,7 +11,7 @@ drawings:
   persist: false
 mdc: true
 layout: image-right
-image: images/python-mining-for-batteries.webp
+image: public/python-mining-for-batteries.webp
 ---
 
 # Python unplugged
@@ -28,7 +28,7 @@ image: images/python-mining-for-batteries.webp
 
 ---
 layout: image-right
-image: images/pingu.jpg
+image: public/pingu.jpg
 backgroundSize: contain
 ---
 
@@ -113,7 +113,7 @@ layout: center
 
 ---
 layout: image-right
-image: images/discworld.png
+image: public/discworld.png
 backgroundSize: contain
 ---
 
@@ -147,7 +147,7 @@ layout: center
 ---
 
 <SlidevVideo autoplay autoreset>
-    <source src="images/book-streaming.mp4" type="video/mp4">
+    <source src="public/book-streaming.mp4" type="video/mp4">
 </SlidevVideo>
 
 <small><i>
@@ -218,7 +218,7 @@ hide: false
 
 ---
 layout: image-left
-image: images/orang-utan-questionmark.png
+image: public/orang-utan-questionmark.png
 ---
 
 <br>
@@ -233,7 +233,7 @@ image: images/orang-utan-questionmark.png
 
 ---
 layout: image-right
-image: images/orang-utan-dancing.png
+image: public/orang-utan-dancing.png
 ---
 
 <br>

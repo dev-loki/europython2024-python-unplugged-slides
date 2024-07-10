@@ -1,6 +1,6 @@
 ---
 layout: image
-image: images/fetching-data.png
+image: public/fetching-data.png
 ---
 
 # Chapter 1: Fetching data
@@ -205,7 +205,7 @@ layout: center
 
 <hr>
 
-![](images/01_editor_helpers.png)
+![](public/01_editor_helpers.png)
 
 <!--
 This is an example from VIM, but works with all modern IDEs
@@ -213,7 +213,7 @@ This is an example from VIM, but works with all modern IDEs
 
 ---
 layout: image-left
-image: images/orang-utan-library.png
+image: public/orang-utan-library.png
 ---
 
 ## Let's continue
@@ -390,7 +390,7 @@ Let's start with the stuff you likely already knew...
 - csv (_"duh!"_)
 - json (_"Yeah I knew that!"_)
 - TypedDict (Maybe new for a few?)
-- All of those are in more detail in the /code folder inside the repo
+- All of those are in more detail in the /code folder inside the repository
 
 </v-clicks>
 

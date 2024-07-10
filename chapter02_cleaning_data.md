@@ -1,6 +1,6 @@
 ---
 layout: image-left
-image: images/data-cleaning.png
+image: public/data-cleaning.png
 ---
 
 <br>
@@ -21,7 +21,7 @@ _(wrong meme universe again - I know)_
 
 ---
 layout: image-right
-image: images/magic-cooking-book-duplicate.png
+image: public/magic-cooking-book-duplicate.png
 ---
 
 ## Duplicate books
@@ -441,7 +441,7 @@ def hide_lost_books(iterable: Iterable[Book]) -> Iterator[Book]:
 
 ---
 layout: image-right
-image: images/orang-utan-doctor.png
+image: public/orang-utan-doctor.png
 ---
 
 ## Doctest - to the rescue
@@ -468,7 +468,7 @@ def extract_year(morporkyear: str) -> int:
 
 ---
 layout: image-right
-image: images/orang-utan-doctor.png
+image: public/orang-utan-doctor.png
 ---
 
 ```sh {1|3-10|10-13}
@@ -489,7 +489,7 @@ Got: 4
 
 ---
 layout: image-right
-image: images/orang-utan-doctor.png
+image: public/orang-utan-doctor.png
 ---
 
 Long story short: lets fix it!
