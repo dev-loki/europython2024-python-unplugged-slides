@@ -481,7 +481,7 @@ def gather_statistics(books: Iterable[Book]) -> Statistics:
 
 ---
 layout: image-right
-image: reduced-tea.webp
+image: reduced-tea.jpg
 ---
 
 ## Reduced Tee
@@ -598,7 +598,7 @@ def gather_statistics(books: Iterable[Book]) -> Statistics:
 
 ---
 layout: image-right
-image: tee-tea-python.png
+image: tee-tea-python.jpg
 backgroundSize: contain
 ---
 
@@ -610,7 +610,7 @@ _Maybe our computation is not CPU bound, but IO bound?_
 
 ---
 layout: image-right
-image: tee-tea-python.png
+image: tee-tea-python.jpg
 backgroundSize: contain
 ---
 
@@ -678,7 +678,7 @@ def gather_statistics(
 
 ---
 layout: image-right
-image: tee-tea-python.png
+image: tee-tea-python.jpg
 backgroundSize: contain
 ---
 

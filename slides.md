@@ -11,7 +11,7 @@ drawings:
   persist: false
 mdc: true
 layout: image-right
-image: python-mining-for-batteries.webp
+image: python-mining-for-batteries.jpg
 ---
 
 # Python unplugged
@@ -22,7 +22,7 @@ image: python-mining-for-batteries.webp
 <hr>
 <br>
 
-<img src="/url_loki.dev-ep24-qrcode.png" alt="qr code for slides" style="max-width: 300px; margin-left: 42px" />
+<img src="/url_loki.dev-ep24-qrcode.jpg" alt="qr code for slides" style="max-width: 300px; margin-left: 42px" />
 
 <br> 
 
@@ -123,7 +123,7 @@ layout: center
 
 ---
 layout: image-right
-image: discworld.png
+image: discworld.jpg
 backgroundSize: contain
 ---
 
@@ -228,7 +228,7 @@ hide: false
 
 ---
 layout: image-left
-image: orang-utan-questionmark.png
+image: orang-utan-questionmark.jpg
 ---
 
 <br>
@@ -243,7 +243,7 @@ image: orang-utan-questionmark.png
 
 ---
 layout: image-right
-image: orang-utan-dancing.png
+image: orang-utan-dancing.jpg
 ---
 
 <br>
