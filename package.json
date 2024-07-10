@@ -15,5 +15,8 @@
     "slidev-theme-academic": "^1.3.0",
     "slidev-theme-unicorn": "^1.1.2",
     "vue": "^3.4.27"
+  },
+  "devDependencies": {
+    "playwright-chromium": "^1.45.1"
   }
 }

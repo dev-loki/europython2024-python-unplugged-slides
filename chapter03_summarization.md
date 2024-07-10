@@ -619,7 +619,8 @@ backgroundSize: contain
 ````md magic-move
 ```python {1-5|11-18}
 """
-We still have these - will hide them completely in the next slide
+We still have these - will hide them completely in 
+the next slide
 """
 def unique_lenders(...): ...
 def unique_families(...): ...
@@ -655,7 +656,7 @@ def gather_statistics(
         unlent_books=unlent_books_count(all_books),
     )
 ```
-```python {9,10|9,10,13-16}
+```python {9-12|9-12,15-18}
 from itertools import tee
 
 
@@ -664,7 +665,9 @@ def gather_statistics(
 ) -> Statistics:
     all_books = list(books)
 
-    """Now we create 3 "references" of the generator"""
+    """
+    Now we create 3 "references" of the generator
+    """
     books_1, books_2, books_3 = tee(books, n=3)
 
     return Statistics(
