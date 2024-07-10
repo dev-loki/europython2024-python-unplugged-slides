@@ -243,12 +243,21 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
 
                 self.wfile.write(json.dumps(library).encode())
 
-            case "/stream":
+            case "/stream/csv":
                 self._set_meta(self.HTTP_OK, "text/csv")
 
                 with suppress(BrokenPipeError, ConnectionResetError):
                     for line in self.csv_gen():
                         self.wfile.write(line)
+                        sleep(0.1)
+
+            case "/stream/json":
+                self._set_meta(self.HTTP_OK, "application/json")
+
+                with suppress(BrokenPipeError, ConnectionResetError):
+                    while True:
+                        book = generate_book()
+                        self.wfile.write(json.dumps(book).encode() + b"\n")
                         sleep(0.1)
 
             case path:
