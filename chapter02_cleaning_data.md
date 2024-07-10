@@ -55,7 +55,7 @@ from itertools import batched
 
 
 LIBRARY_DB = Path("library_raw.csv")
-COLUMNS = BookResponse.__annotations.__.keys()
+COLUMNS = Book.__annotations.__.keys()
 
 
 def only_save_non_duplicates() -> None:
@@ -73,7 +73,7 @@ from itertools import batched
 
 
 LIBRARY_DB = Path("library_raw.csv")
-COLUMNS = BookResponse.__annotations.__.keys()
+COLUMNS = Book.__annotations.__.keys()
 
 
 def only_save_non_du..plicates() -> None:
@@ -92,7 +92,7 @@ from csv import DictWriter
 
 
 LIBRARY_DB = Path("library_raw.csv")
-COLUMNS = BookResponse.__annotations.__.keys()
+COLUMNS = Book.__annotations.__.keys()
 
 
 def only_save_non_duplicates() -> None:
@@ -119,7 +119,7 @@ from itertools import pairwise
 
 
 LIBRARY_DB = Path("library_raw.csv")
-COLUMNS = BookResponse.__annotations.__.keys()
+COLUMNS = Book.__annotations.__.keys()
 
 
 def only_save_non_duplicates() -> None:
@@ -144,7 +144,7 @@ from itertools import pairwise
 
 
 LIBRARY_DB = Path("library_raw.csv")
-COLUMNS = BookResponse.__annotations.__.keys()
+COLUMNS = Book.__annotations.__.keys()
 
 
 def only_save_non_duplicates() -> None:
@@ -164,7 +164,7 @@ from itertools import pairwise
 
 
 LIBRARY_DB = Path("library_raw.csv")
-COLUMNS = BookResponse.__annotations.__.keys()
+COLUMNS = Book.__annotations.__.keys()
 
 
 def only_save_non_duplicates() -> None:
@@ -191,7 +191,7 @@ from csv import DictWriter
 
 
 LIBRARY_DB = Path("library_raw.csv")
-COLUMNS = BookResponse.__annotations.__.keys()
+COLUMNS = Book.__annotations.__.keys()
 
 
 def only_save_non_duplicates() -> None:
@@ -215,7 +215,7 @@ from itertools import chain, pairwise
 
 
 LIBRARY_DB = Path("library_raw.csv")
-COLUMNS = BookResponse.__annotations.__.keys()
+COLUMNS = Book.__annotations.__.keys()
 
 
 def only_save_non_duplicates() -> None:
@@ -390,8 +390,8 @@ def hide_lost_books(iterable: Iterable) -> Iterator:
 Let's make our live easier again
 """
 def hide_lost_books(
-    iterable: Iterable[BookResponse]
-) -> Iterator[BookResponse]:
+    iterable: Iterable[Book]
+) -> Iterator[Book]:
     for book in iterable:
         if book["lent_since"] < "???"
 ```
@@ -401,8 +401,8 @@ def hide_lost_books(
 We want to extract the year
 """
 def hide_lost_books(
-    iterable: Iterable[BookResponse]
-) -> Iterator[BookResponse]:
+    iterable: Iterable[Book]
+) -> Iterator[Book]:
     example_year = "year 450 in the 3rd month"
     for book in iterable:
         # How do we get the year?
@@ -418,7 +418,7 @@ def extract_year(morporkyear: str) -> int:
     return int(re.search(r"(\d)", morporkyear).group(0))
 
 
-def hide_lost_books(iterable: Iterable[BookResponse]) -> Iterator[BookResponse]:
+def hide_lost_books(iterable: Iterable[Book]) -> Iterator[Book]:
     ...
 ```
 
@@ -434,7 +434,7 @@ def extract_year(morporkyear: str) -> int:
     return int(re.search(r"(\d)", morporkyear).group(0))
 
 
-def hide_lost_books(iterable: Iterable[BookResponse]) -> Iterator[BookResponse]:
+def hide_lost_books(iterable: Iterable[Book]) -> Iterator[Book]:
     ...
 ```
 ````
@@ -555,7 +555,7 @@ def extract_year(morporkyear: str) -> int:
 def extract_year(morpork_year: str) -> int: ...
 
 
-def hide_lost_books(iterable: Iterable[BookResponse]) -> Iterator[BookResponse]:
+def hide_lost_books(iterable: Iterable[Book]) -> Iterator[Book]:
     for book in iterable:
         if extract_year(book["lent_since"]) >= -300:
             yield book
@@ -571,7 +571,7 @@ Why?
 """
 def extract_year(morporkyear: str) -> int: ...
 
-def hide_lost_books(iterable: Iterable[BookResponse]) -> Iterator[BookResponse]:
+def hide_lost_books(iterable: Iterable[Book]) -> Iterator[Book]:
     yield from (
         book 
         for book in iterable
@@ -591,8 +591,8 @@ def extract_year(morporkyear: str) -> int: ...
 lost_books = []
 
 def hide_lost_books(
-    iterable: Iterable[BookResponse]
-) -> Iterator[BookResponse]:
+    iterable: Iterable[Book]
+) -> Iterator[Book]:
     for book in iterable:
         if extract_year(book["lent_since"]) >= -300:
             yield book
@@ -609,8 +609,8 @@ def extract_year(morporkyear: str) -> int: ...
 
 
 def hide_lost_books(
-    iterable: Iterable[BookResponse]
-) -> Iterator[BookResponse | None]:
+    iterable: Iterable[Book]
+) -> Iterator[Book | None]:
     lost_books = []
 
     for book in iterable:
@@ -633,8 +633,8 @@ Instead of an singular Value Iterator we will return
 a Generator
 """
 def hide_lost_books(
-    iterable: Iterable[BookResponse]
-) -> Generator[BookResponse, None, list[BookResponse]]:
+    iterable: Iterable[Book]
+) -> Generator[Book, None, list[Book]]:
     #     yield --^      | send ^ |   ^---- return type
     lost_books = []
 
@@ -652,8 +652,8 @@ def hide_lost_books(
 
 ```python
 def hide_lost_books(
-    iterable: Iterable[BookResponse]
-) -> Generator[BookResponse, None, list[BookResponse]]:
+    iterable: Iterable[Book]
+) -> Generator[Book, None, list[Book]]:
     lost_books = []
 
     for book in iterable:
@@ -669,10 +669,10 @@ def hide_lost_books(
 """
 Usage
 """
-def hide_lost_books(iterable: Iterable[BookResponse]) -> \
-    Generator[BookResponse, None, list[BookResponse]]: ...
+def hide_lost_books(iterable: Iterable[Book]) -> \
+    Generator[Book, None, list[Book]]: ...
 
-def get_return_value() -> tuple[list[BookResponse], list[BookResponse]]:
+def get_return_value() -> tuple[list[Book], list[Book]]:
     non_hidden_generator = hide_lost_books(mylibrary)
 
     # consume the whole generator (just as example)
@@ -737,12 +737,12 @@ from typing import NamedTuple
 
 
 class BookMeta(NamedTuple):
-    current: BookResponse
-    lost: list[BookResponse]
+    current: Book
+    lost: list[Book]
 
 
 def hide_lost_books(
-    iterable: Iterable[BookResponse]
+    iterable: Iterable[Book]
 ) -> Iterator[BookMeta]:
     lost_books = []
 

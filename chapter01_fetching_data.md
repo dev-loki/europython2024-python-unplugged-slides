@@ -27,10 +27,13 @@ Typical fetching with the popular requests library
 import requests
 
 
-def fetch_book() -> dict:
-    return requests.get(URL_BOOK).json()
-```
+def fetch_book(url):
+    return requests.get(url).json()
 
+
+URL_BOOK = "http://localhost:1234/book"
+print(fetch_book(URL_BOOK))
+```
 ```python {1-3,5-6|1,2,4,5,10}
 """
 Replace
@@ -40,30 +43,37 @@ Replace
 from urllib import request
 
 
-def fetch_book() -> dict:
-    response = request.urlopen(URL_BOOK).read()
+def fetch_book(url):
+    response = request.urlopen(url).read()
+
+
+URL_BOOK = "http://localhost:1234/book"
+print(fetch_book(URL_BOOK))
 ```
 
 ```python {1-3,5,8,10}
 """
-We now have to take care of json ourselves
+But we now have to take care of json ourselves
 """
 from urllib import request
 import json
 
 
-def fetch_book() -> dict:
-    response = request.urlopen(URL_BOOK).read()
+def fetch_book(url):
+    response = request.urlopen(url).read()
     return json.loads(response)
-```
 
+
+URL_BOOK = "http://localhost:1234/book"
+print(fetch_book(url))
+```
 ```python
 """
 An example response for our project
 """
-def fetch_book() -> dict: ...
+def fetch_book(url): ...
 
-fetch_book() == dict(
+fetch_book(URL_BOOK) == dict(
   title="Remarkable Saga of the Clacks",
   author="Alexandra Scott",
   lent_by=null,
@@ -163,7 +173,7 @@ Positive Sideffect: This helps static code checkers help us
 from typing import TypedDict
 
 
-class BookResponse(TypedDict):
+class Book(TypedDict):
     title: str
     author: str
     lent_by: str | None
@@ -175,7 +185,7 @@ class BookResponse(TypedDict):
     excerpt: str
 
 
-def fetch_book() -> BookResponse: ...
+def fetch_book() -> Book: ...
 ```
 ````
 
@@ -264,7 +274,7 @@ def batched(some_iterable: Iterable, size: int = 2) -> Iterator[tuple]:
     Better as we now can even use generators with unknown size!
     It is lazy as well and doesn't create huge list of tuples!
     """
-    iterator = iter(iterable)
+    iterator = iter(some_iterable)
     
     while batch := tuple(islice(iterator, size)):
         yield batch
@@ -325,7 +335,7 @@ from itertools import batched
 LIBRARY_DB = Path("library_raw.csv")
 
 # fetches the keys form our TypedDict :)
-BOOK_COLS = BookResponse.__annotations.__.keys()
+BOOK_COLS = Book.__annotations.__.keys()
 
 
 def work_on_the_library() -> None:
@@ -380,6 +390,7 @@ Let's start with the stuff you likely already knew...
 - csv (_"duh!"_)
 - json (_"Yeah I knew that!"_)
 - TypedDict (Maybe new for a few?)
+- All of those are in more detail in the /code folder inside the repo
 
 </v-clicks>
 

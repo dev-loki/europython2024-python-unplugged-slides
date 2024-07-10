@@ -36,12 +36,12 @@ Very simple example Example
 
 ````md magic-move
 ```python
-def most_common_words_in_title(books: Iterable[BookResponse]) -> dict:
+def most_common_words_in_title(books: Iterable[Book]) -> dict:
     word_counter = {}
 ```
 
 ```python
-def most_common_words_in_title(books: Iterable[BookResponse]) -> dict:
+def most_common_words_in_title(books: Iterable[Book]) -> dict:
     word_counter = {}
 
     for book in books:
@@ -51,7 +51,7 @@ def most_common_words_in_title(books: Iterable[BookResponse]) -> dict:
 ```
 
 ```python
-def most_common_words_in_title(books: Iterable[BookResponse]) -> dict:
+def most_common_words_in_title(books: Iterable[Book]) -> dict:
     """
     REPLACE
     """
@@ -69,7 +69,7 @@ def most_common_words_in_title(books: Iterable[BookResponse]) -> dict:
 from collections import defaultdict
 
 
-def most_common_words_in_title(books: Iterable[BookResponse]) -> dict:
+def most_common_words_in_title(books: Iterable[Book]) -> dict:
     """
     Import and use dictionary
     """
@@ -87,7 +87,7 @@ def most_common_words_in_title(books: Iterable[BookResponse]) -> dict:
 from collections import defaultdict
 
 
-def most_common_words_in_title(books: Iterable[BookResponse]) -> dict:
+def most_common_words_in_title(books: Iterable[Book]) -> dict:
     """
     Much more concise :)
     """
@@ -122,7 +122,7 @@ layout: center
 from collections import defaultdict
 
 
-def most_common_words_in_title(books: Iterable[BookResponse]) -> dict:
+def most_common_words_in_title(books: Iterable[Book]) -> dict:
     word_counter = defaultdict(int)
 
     for book in books:
@@ -134,7 +134,7 @@ def most_common_words_in_title(books: Iterable[BookResponse]) -> dict:
 from collections import defaultdict
 
 
-def most_common_words_in_data(books: Iterable[BookResponse]) -> dict:
+def most_common_words_in_data(books: Iterable[Book]) -> dict:
     word_counter = defaultdict(int)
 
     for book in books:
@@ -146,7 +146,7 @@ def most_common_words_in_data(books: Iterable[BookResponse]) -> dict:
 from collections import defaultdict
 
 
-def most_common_words_in_data(books: Iterable[BookResponse]) -> dict:
+def most_common_words_in_data(books: Iterable[Book]) -> dict:
     word_counter = defaultdict(int)
 
     for book in books:
@@ -163,7 +163,7 @@ from collections import defaultdict
 from itertools import chain
 
 
-def most_common_words_in_data(books: Iterable[BookResponse]) -> dict:
+def most_common_words_in_data(books: Iterable[Book]) -> dict:
     word_counter = defaultdict(int)
 
     for book in books:
@@ -182,7 +182,7 @@ from collections import defaultdict
 from itertools import chain
 
 
-def most_common_words_in_data(books: Iterable[BookResponse]) -> dict:
+def most_common_words_in_data(books: Iterable[Book]) -> dict:
     word_counter = defaultdict(int)
 
     book_word_generator = (
@@ -200,7 +200,7 @@ from collections import defaultdict
 from itertools import chain
 
 
-def most_common_words_in_data(books: Iterable[BookResponse]) -> dict:
+def most_common_words_in_data(books: Iterable[Book]) -> dict:
     word_counter = defaultdict(int)
 
     book_word_generator = (
@@ -220,7 +220,7 @@ from collections import defaultdict, Counter
 from itertools import chain
 
 
-def most_common_words_in_data(books: Iterable[BookResponse]) -> dict:
+def most_common_words_in_data(books: Iterable[Book]) -> dict:
     word_counter = defaultdict(int)
 
     book_word_generator = (
@@ -262,7 +262,7 @@ layout: center
 
 ````md magic-move
 ```python
-def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
+def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
     books_by_family_name = {}
 
     for book in books:
@@ -270,7 +270,7 @@ def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
             continue
 ```
 ```python
-def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
+def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
     books_by_family_name = {}
 
     for book in books:
@@ -281,7 +281,7 @@ def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
         family_name = names_split[1]
 ```
 ```python
-def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
+def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
     books_by_family_name = {}
 
     for book in books:
@@ -291,7 +291,7 @@ def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
         _, family = book['lent_by'].split(maxsplit=2)
 ```
 ```python
-def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
+def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
     books_by_family = {}
 
     for book in books:
@@ -305,7 +305,7 @@ def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
             books_by_family[family] += 1
 ```
 ```python
-def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
+def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
     books_by_family_name = {}
 
     for book in books:
@@ -326,7 +326,7 @@ def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
 ```
 
 ```python
-def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
+def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
     """Again: defaultdict is a sensible choice"""
     books_by_family = defaultdict(int)
 
@@ -350,12 +350,12 @@ Let's see how we could do it with groupby
 from itertools import groupby
 
 
-def family_name(book: BookResponse) -> str:
+def family_name(book: Book) -> str:
     """Let's create a functio for this"""
     return book['lent_by'].split()[1]
 
 
-def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
+def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
     """... and check for the largest size"""
     lent_books = (b for b in books if b['lent_by'])
     books_by_family_name = groupby(lent_books, key=family_name)
@@ -371,7 +371,7 @@ def family_lent_the_most(books: Iterable[BookResponse]) -> tuple[str, int]:
 from itertools import groupby
 
 
-def family_name(book: BookResponse) -> str:
+def family_name(book: Book) -> str:
     return book['lent_by'].split()[1]
 
 
@@ -380,7 +380,7 @@ class BiggestLender(NamedTuple):
     lent_books: int
 
 
-def family_lent_the_most(books: Iterable[BookResponse]) -> BiggestLender:
+def family_lent_the_most(books: Iterable[Book]) -> BiggestLender:
     lent_books = (b for b in books if b['lent_by'])
     books_by_family_name = groupby(lent_books, key=family_name)
     
@@ -413,20 +413,20 @@ layout: center
 """
 Our 3 extractions methods:
 """
-def total_unique_lenders(books: Iterable[BookResponse]) -> int: ... 
+def total_unique_lenders(books: Iterable[Book]) -> int: ... 
 
-def unique_families(books: Iterable[BookResponse]) -> set[str]: ... 
+def unique_families(books: Iterable[Book]) -> set[str]: ... 
 
-def unlent_books_count(books: Iterable[BookResponse]) -> int: ...
+def unlent_books_count(books: Iterable[Book]) -> int: ...
 ```
 ```python {10-13}
 """
 And we have here the Statistics object:
 - Again a Namedtuple, as it is nice to access and small in footprint
 """
-def total_unique_lenders(books: Iterable[BookResponse]) -> int: ... 
-def unique_families(books: Iterable[BookResponse]) -> set[str]: ... 
-def unlent_books_count(books: Iterable[BookResponse]) -> int: ...
+def total_unique_lenders(books: Iterable[Book]) -> int: ... 
+def unique_families(books: Iterable[Book]) -> set[str]: ... 
+def unlent_books_count(books: Iterable[Book]) -> int: ...
 
 
 class Statistics(NamedTuple):
@@ -436,9 +436,9 @@ class Statistics(NamedTuple):
 ```
 
 ```python {12-17}
-def total_unique_lenders(books: Iterable[BookResponse]) -> int: ... 
-def unique_families(books: Iterable[BookResponse]) -> set[str]: ... 
-def unlent_books_count(books: Iterable[BookResponse]) -> int: ...
+def total_unique_lenders(books: Iterable[Book]) -> int: ... 
+def unique_families(books: Iterable[Book]) -> set[str]: ... 
+def unlent_books_count(books: Iterable[Book]) -> int: ...
 
 
 class Statistics(NamedTuple):
@@ -447,7 +447,7 @@ class Statistics(NamedTuple):
     unlent_books: int
 
 
-def gather_statistics(books: Iterable[BookResponse]) -> Statistics:
+def gather_statistics(books: Iterable[Book]) -> Statistics:
     """
     Let's naively just call those functions. Sequentially!
     -> What happens with the generator?
@@ -459,15 +459,15 @@ def gather_statistics(books: Iterable[BookResponse]) -> Statistics:
     )
 ```
 ```python {12-16}
-def total_unique_lenders(books: Iterable[BookResponse]) -> int: ... 
-def unique_families(books: Iterable[BookResponse]) -> set[str]: ... 
-def unlent_books_count(books: Iterable[BookResponse]) -> int: ...
+def total_unique_lenders(books: Iterable[Book]) -> int: ... 
+def unique_families(books: Iterable[Book]) -> set[str]: ... 
+def unlent_books_count(books: Iterable[Book]) -> int: ...
 
 
 class Statistics(NamedTuple): ...
 
 
-def gather_statistics(books: Iterable[BookResponse]) -> Statistics:
+def gather_statistics(books: Iterable[Book]) -> Statistics:
     """This would solve that, right?"""
     all_books = list(books)
 
@@ -513,9 +513,9 @@ layout: center
 
 ````md magic-move
 ```python
-def total_unique_lenders(books: Iterable[BookResponse]) -> int: ... 
-def unique_families(books: Iterable[BookResponse]) -> list[str]: ... 
-def unlent_books_count(books: Iterable[BookResponse]) -> int: ...
+def total_unique_lenders(books: Iterable[Book]) -> int: ... 
+def unique_families(books: Iterable[Book]) -> list[str]: ... 
+def unlent_books_count(books: Iterable[Book]) -> int: ...
 
 class Statistics(NamedTuple): ...
 
@@ -530,7 +530,7 @@ class StatisticsAccumulator:
     families: set[str] = set()
     unlend: int = 0
 
-def gather_statistics(books: Iterable[BookResponse]) -> Statistics:
+def gather_statistics(books: Iterable[Book]) -> Statistics:
     all_books = list(books)
 
     return Statistics(
@@ -540,9 +540,9 @@ def gather_statistics(books: Iterable[BookResponse]) -> Statistics:
     )
 ```
 ```python
-def total_unique_lenders(books: Iterable[BookResponse]) -> int: ... 
-def unique_families(books: Iterable[BookResponse]) -> list[str]: ... 
-def unlent_books_count(books: Iterable[BookResponse]) -> int: ...
+def total_unique_lenders(books: Iterable[Book]) -> int: ... 
+def unique_families(books: Iterable[Book]) -> list[str]: ... 
+def unlent_books_count(books: Iterable[Book]) -> int: ...
 
 class Statistics(NamedTuple): ...
 
@@ -555,7 +555,7 @@ class StatisticsAccumulator:
 
 def statistics_reducer(
     acc: StatisticsAccumulator,
-    book: BookResponse,
+    book: Book,
 ) -> StatisticsAccumulator:
     if book['lent_by']:
         acc.lenders.add(book['lent_by'])
@@ -565,14 +565,14 @@ def statistics_reducer(
 
     return acc
 
-def gather_statistics(books: Iterable[BookResponse]) -> Statistics:
+def gather_statistics(books: Iterable[Book]) -> Statistics:
     ...
 ```
 
 ```python
-def total_unique_lenders(books: Iterable[BookResponse]) -> int: ... 
-def unique_families(books: Iterable[BookResponse]) -> list[str]: ... 
-def unlent_books_count(books: Iterable[BookResponse]) -> int: ...
+def total_unique_lenders(books: Iterable[Book]) -> int: ... 
+def unique_families(books: Iterable[Book]) -> list[str]: ... 
+def unlent_books_count(books: Iterable[Book]) -> int: ...
 
 class Statistics(NamedTuple): ...
 
@@ -582,10 +582,10 @@ class StatisticsAccumulator: ...
 
 def statistics_reducer(
     acc: StatisticsAccumulator,
-    book: BookResponse,
+    book: Book,
 ) -> StatisticsAccumulator: ...
 
-def gather_statistics(books: Iterable[BookResponse]) -> Statistics:
+def gather_statistics(books: Iterable[Book]) -> Statistics:
     accumulated_stats = reduce(statistics_reducer, books, StatisticsAccumulator())
 
     return Statistics(
@@ -628,7 +628,7 @@ class Statistics(NamedTuple): ...
 
 
 def gather_statistics(
-    books: Iterable[BookResponse]
+    books: Iterable[Book]
 ) -> Statistics:
     """And we still call them one after another:"""
     all_books = list(books)
@@ -645,7 +645,7 @@ from itertools import tee
 
 
 def gather_statistics(
-    books: Iterable[BookResponse]
+    books: Iterable[Book]
 ) -> Statistics:
     all_books = list(books)
 
@@ -660,7 +660,7 @@ from itertools import tee
 
 
 def gather_statistics(
-    books: Iterable[BookResponse]
+    books: Iterable[Book]
 ) -> Statistics:
     all_books = list(books)
 
