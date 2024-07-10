@@ -16,15 +16,25 @@ image: python-mining-for-batteries.webp
 
 # Python unplugged
 
-<br> <hr> <br>
+### Mining for hidden batteries
 
-#### Mining for hidden batteries
+<br>
+<hr>
+<br>
+
+<img src="/url_loki.dev-ep24-qrcode.png" alt="qr code for slides" style="max-width: 300px; margin-left: 42px" />
+
+<br> 
+
+<xsmall>loki.dev/ep24</xsmall>
+
 
 <!--
 - Name of the talk
 - What is the talk about
 - Next: whoami
 -->
+
 
 ---
 layout: image-right
