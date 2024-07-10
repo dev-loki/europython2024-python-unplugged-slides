@@ -356,30 +356,30 @@ _one of many examples: [stackoverflow/312443](https://stackoverflow.com/question
 -->
 
 ---
-layout: two-cols
+layout: center
 ---
-
-<br> <br> <br> <br> <br> <br> 
 
 ## Summary
 
-<br> <br> 
+<br> <hr> <br> 
 
 ### We started very small, but which modules did we learn about?
 
-::right::
-
-<br> <br> <br> <br> <br> <br> 
+---
+layout: center
+---
 
 ### Trivial
 
 <br> <hr> <br> 
 
+Let's start with the stuff you likely already knew...
+
 <v-clicks>
 
 - csv (_"duh!"_)
-- json (_"Yeah I knew that"_)
-- TypedDict (Maybe new)
+- json (_"Yeah I knew that!"_)
+- TypedDict (Maybe new for a few?)
 
 </v-clicks>
 

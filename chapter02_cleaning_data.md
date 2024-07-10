@@ -113,7 +113,7 @@ def only_save_non_duplicates() -> None:
                 writer.writerow(book_gen)
             last_book = book
 ```
-```python {10-12|2|19-21}
+```python {2,10,11,12}
 from csv import DictWriter
 from itertools import pairwise
 
@@ -124,8 +124,30 @@ COLUMNS = BookResponse.__annotations.__.keys()
 
 def only_save_non_duplicates() -> None:
     """
-    But: We can use pairwise for that
+    But: We can use pairwise for that!
     """
+    book_gen = fetch_library()
+
+    with LIBRARY_DB.open("w") as file:
+        writer = DictWriter(file, fieldnames=COLUMNS)
+        writer.writeheader()
+
+        last_book = None
+        for book in bookgen:
+            if book != last_book:
+                writer.writerow(book_gen)
+            last_book = book
+```
+```python {2,16-18}
+from csv import DictWriter
+from itertools import pairwise
+
+
+LIBRARY_DB = Path("library_raw.csv")
+COLUMNS = BookResponse.__annotations.__.keys()
+
+
+def only_save_non_duplicates() -> None:
     book_gen = fetch_library()
 
     with LIBRARY_DB.open("w") as file:
@@ -136,7 +158,7 @@ def only_save_non_duplicates() -> None:
             if book != book2:
                 writer.writerow(book_gen)
 ```
-```python {11,10-22|24-26}
+```python {10,11,12|10-22|19,24-26}
 from csv import DictWriter
 from itertools import pairwise
 
@@ -164,9 +186,8 @@ def only_save_non_duplicates() -> None:
         if book2 and book != book2:
             writer.writerow(book2)
 ```
-```python {11,12,20}
+```python {9-12,19}
 from csv import DictWriter
-from itertools import chain
 
 
 LIBRARY_DB = Path("library_raw.csv")
@@ -238,8 +259,10 @@ layout: center
 <v-clicks>
 
 - Signature: `def pairwise(iterable: Iterable[T]) -> Iterable[tuple[T, T]]`
-- Makes out of an iterator like `range(10)`...
-- ... and iterator like `((0,1), (1,2), (2,3), ...)`
+- Uses an iterator like `range(10)`...
+- ... and creates a new iterator like `((0,1), (1,2), (2,3), ..., (8, 9))`
+- other example: `list(pairwise("Hello")) == [("H","e"), ("e","l"), ("l","l"), ("l","o")]` 
+- is lazy -> Without `list(...)` or other ways of consuming pairwise does (almost) nothing
 
 </v-clicks>
 
@@ -247,24 +270,39 @@ layout: center
 layout: center
 ---
 
-### chain
+## chain
 
 <br><hr><br>
 
 <v-clicks depth="2">
 
-- Chains together multiple iterables
+- Chains together multiple iterables 
 - From this `list(chain('Hello', 'World'))` ...
     - We get this `['H', 'e', 'l', 'l', 'o', 'W', 'o', 'r', 'l', 'd']`
 - Advantage: it's lazy and doesn't create a large¹ object, like:
     - `combined_list = [*my_list, *my_other_list]`
     - ¹(not large means: it only holds references)
-- It can flatten lists: `chain.from_iterable()`
-    - `my_list = [[1,2,3], [3,4,5]]`
-    - `flattened = chain.from_iterable(my_list)`
-    - `assert list(flattened) == [1,2,3,3,4,5]`
+- It can flatten lists with a classmethod: `chain.from_iterable(...)`
 
 </v-clicks>
+
+
+---
+layout: center
+---
+
+## It can flatten lists
+
+_(also a common thing people do themselves)_
+
+<br><hr><br>
+
+```python {1|2|4}
+my_list = [[1,2,3], [3,4,5]]
+flattened = chain.from_iterable(my_list)
+
+assert list(flattened) == [1,2,3,3,4,5]
+```
 
 ---
 layout: center
@@ -284,6 +322,8 @@ _For the brevity of completeness..._
     - `cm["a"] == 1` (Not `3`!)
     - `cm["b"] == 2`
     - `cm["c"] --> KeyError`
+- Attention: Different behaviour than `**dict`
+    - `{**adict, **bdict} => dict(ChainMap(bdict, adict))`
 
 </v-clicks>
 
