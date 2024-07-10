@@ -119,7 +119,7 @@ layout: center
 2. Cleaning data
 3. Processing data
 4. Miscellaneus / Additional stuff (Might be dropped because of time)
-5. (Maybe some ASGI implementation)
+5. (Maybe some vanilla python server implementation)
 
 ---
 layout: image-right

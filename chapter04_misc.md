@@ -113,7 +113,7 @@ class Book:
 - I actually wrote a whole server to generate random
   books, just to drop the usage due to time limitations
 - But still: We can look into some of the last "batteries included"
-  1. An ASGI server (means: very simple and unmighty Flask/FastAPI)
+  1. A pure python server (means: very simple and unmighty Flask/FastAPI)
   2. Argument parsing (not as beautiful as typer, but easy to work with)
   3. Caching
   4. suppressing errors the right way!
