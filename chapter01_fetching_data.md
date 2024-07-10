@@ -1,6 +1,6 @@
 ---
 layout: image
-image: public/fetching-data.png
+image: fetching-data.png
 ---
 
 # Chapter 1: Fetching data
@@ -205,7 +205,7 @@ layout: center
 
 <hr>
 
-![](public/01_editor_helpers.png)
+![](/01_editor_helpers.png)
 
 <!--
 This is an example from VIM, but works with all modern IDEs
@@ -213,7 +213,7 @@ This is an example from VIM, but works with all modern IDEs
 
 ---
 layout: image-left
-image: public/orang-utan-library.png
+image: orang-utan-library.png
 ---
 
 ## Let's continue

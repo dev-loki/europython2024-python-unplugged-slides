@@ -9,3 +9,4 @@ node_modules
 output.csv
 output.json
 output.jsonl
+.env
