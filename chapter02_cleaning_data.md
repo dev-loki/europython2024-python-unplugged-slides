@@ -35,7 +35,7 @@ image: magic-cooking-book-duplicate.jpg
 - The orang utan librarian of the Unseen University wants the list of 
   unique books as CSV (obviously!)
 - This is **NOT** a leetcode talk ;) 
-    - no fancy but obvious solution if P in NP
+    - no fancy but obvious solution if P is in NP
     - also: no super clever text similarity or duplication algorithms
 
 </v-clicks>
@@ -87,7 +87,12 @@ def only_save_non_du..plicates() -> None:
             for book in filter_double_books(batch):
                 writer.writerows(batch)
 ```
-```python {10-11|12,20-24}
+```python {1-3,5|1,4,5,20-24}
+"""
+As we watch our code run, we recognize, that
+Books always duplicate in pairs!
+Naive approach incoming
+"""
 from csv import DictWriter
 
 
@@ -96,11 +101,6 @@ COLUMNS = Book.__annotations.__.keys()
 
 
 def only_save_non_duplicates() -> None:
-    """
-    As we watch our code run, we recognize, that
-    Books always duplicate in pairs!
-    Naive approach incoming
-    """
     book_gen = fetch_library()
 
     with LIBRARY_DB.open("w") as file:
@@ -113,32 +113,10 @@ def only_save_non_duplicates() -> None:
                 writer.writerow(book)
             last_book = book
 ```
-```python {2,10,11,12}
-from csv import DictWriter
-from itertools import pairwise
-
-
-LIBRARY_DB = Path("library_raw.csv")
-COLUMNS = Book.__annotations.__.keys()
-
-
-def only_save_non_duplicates() -> None:
-    """
-    But: We can use pairwise for that!
-    """
-    book_gen = fetch_library()
-
-    with LIBRARY_DB.open("w") as file:
-        writer = DictWriter(file, fieldnames=COLUMNS)
-        writer.writeheader()
-
-        last_book = None
-        for book in bookgen:
-            if book != last_book:
-                writer.writerow(book)
-            last_book = book
-```
-```python {2,16-18}
+```python {5,19-21|1-3,19-21}
+"""
+This should work, right?
+"""
 from csv import DictWriter
 from itertools import pairwise
 
@@ -159,6 +137,9 @@ def only_save_non_duplicates() -> None:
                 writer.writerow(book)
 ```
 ```python {10,11,12|10-22|19,24-26}
+"""
+Problem: We don't get the last book!
+"""
 from csv import DictWriter
 from itertools import pairwise
 
@@ -168,9 +149,6 @@ COLUMNS = Book.__annotations.__.keys()
 
 
 def only_save_non_duplicates() -> None:
-    """
-    Problem: We don't get the last book!
-    """
     book_gen = fetch_library()
 
     with LIBRARY_DB.open("w") as file:
@@ -186,7 +164,11 @@ def only_save_non_duplicates() -> None:
         if book2 and book != book2:
             writer.writerow(book2)
 ```
-```python {9-12,19}
+```python {1-4,19}
+"""
+We can also use destructuring, but this would 
+defy the purpose of a generator
+"""
 from csv import DictWriter
 
 
@@ -195,10 +177,6 @@ COLUMNS = Book.__annotations.__.keys()
 
 
 def only_save_non_duplicates() -> None:
-    """
-    We can also use destructuring, but this would 
-    defy the purpose of a generator
-    """
     book_gen = fetch_library()
 
     with LIBRARY_DB.open("w") as file:
@@ -209,7 +187,11 @@ def only_save_non_duplicates() -> None:
             if book != book2:
                 writer.writerow(book2)
 ```
-```python {2,11,12|20}
+```python {1-4,20}
+"""
+chain to the rescue!
+It lazily chains multiple iterators without effort
+"""
 from csv import DictWriter
 from itertools import chain, pairwise
 
@@ -219,17 +201,13 @@ COLUMNS = Book.__annotations.__.keys()
 
 
 def only_save_non_duplicates() -> None:
-    """
-    chain to the rescue!
-    It lazily chains multiple iterators without effort
-    """
     book_gen = fetch_library()
 
     with LIBRARY_DB.open("w") as file:
         writer = DictWriter(file, fieldnames=COLUMNS)
         writer.writeheader()
 
-        for book, book2 in pairwise(chain([None], lib):
+        for book, book2 in pairwise(chain((None,), lib):
             if book != book2:
                 writer.writerow(book2)
 ```
@@ -243,7 +221,6 @@ We have written this basic code to just save the data from "magic funnel" to CSV
 
 ---
 layout: center
-hideInToc: true
 ---
 
 ## What new modules did we learn about?
@@ -324,6 +301,7 @@ _For the brevity of completeness..._
     - `cm["c"] --> KeyError`
 - Attention: Different behaviour than `**dict`
     - `{**adict, **bdict} => dict(ChainMap(bdict, adict))`
+- Full example in repository in `/code/chapter2`
 
 </v-clicks>
 
@@ -378,7 +356,7 @@ def hide_lost_books(iterable: Iterable) -> Iterator:
 
 ```python
 """
-and iterating through the books...
+And iterating through the books...
 """
 def hide_lost_books(iterable: Iterable) -> Iterator:
     for book in iterable:

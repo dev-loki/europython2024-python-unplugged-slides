@@ -141,29 +141,7 @@ book_format = dict(
 
 def fetch_book() -> dict: ...
 ```
-
-```python
-"""We can and should make our lives easier!"""
-from typing import TypedDict
-
-
-book_format = dict(
-  title="Remarkable Saga of the Clacks",
-  author="Alexandra Scott",
-  lent_by=null,
-  lent_since=null,
-  lent_times=8,
-  year="The 7th year after Turtle Moves",
-  catalogued="year -395 in the 2nd month",
-  location="Great Hall: bottom shelve...",
-  excerpt="Near the bubbling cauldron...",
-)
-
-
-def fetch_book() -> dict: ...
-```
-
-```python
+```python {2,3,7|4,5,7|10-19|22}
 """
 With TypedDict from typing module we help the IDE
 to give us proper type hints!
@@ -187,6 +165,42 @@ class Book(TypedDict):
 
 def fetch_book() -> Book: ...
 ```
+```python
+"""
+You can specify keys which might not be given
+"""
+from typing import TypedDict, NotRequired
+
+
+class Book(TypedDict):
+    title: str
+    author: str
+    lent_by: NotRequired[str]
+    lent_since: NotRequired[str]
+    lent_times: int
+    year: str
+    catalogued: str
+    location: str
+    excerpt: str
+```
+```python
+"""
+Or it might be useful to have it this way (not here though ;) )
+"""
+from typing import TypedDict, Required
+
+
+class Book(TypedDict, total=False):
+    title: Required[str] 
+    author: Required[str]
+    lent_by: str
+    lent_since: str
+    lent_times: Required[int]
+    year: Required[str]
+    catalogued: Required[str]
+    location: Required[str]
+    excerpt: Required[str]
+```
 ````
 
 <!--
@@ -201,7 +215,7 @@ TypedDict has numerous advantages over dict
 layout: center
 ---
 
-## This is what it looks like
+## This is what it might like (Autocompletion <3)
 
 <hr>
 
@@ -230,7 +244,6 @@ image: orang-utan-library.jpg
 - This means that we need to work on the books in batches
 - Plenty of solutions!
 - Let's first look on how we might have done it before python3.12
-- And then how python3.12 makes our life easier :)
 
 </v-clicks>
 
@@ -245,7 +258,7 @@ THAT is the librarian of the Unseen University. He's nameless (if he had a name,
 <hr> <br>
 
 ````md magic-move
-```python {1-4|6-8|9-10|11-13|8,15}
+```python {1-4|6-8|9-10|11-13|7,12,14}
 """
 Sometimes search engines bring one to this or similar
 stackoverflow solutions¹
@@ -261,19 +274,21 @@ def batched(some_list: list, size: int = 2) -> list[tuple]:
 
     return batches
 ```
-```python {1-5|8|8-12|13|15-16|all}
+```python {1-3,11|5-6,11|8,9,14|8,9,15-18}
 """
 With islice this already gets better ...
 ... as we can even consume generators :)
+
+Better as we now can even use generators with unknown size!
+It is lazy as well and doesn't create huge list of tuples!
+
+Iterable: Something with __next__ (no for x in collection)
+Iterator: Something with __next__ and __iter__ (for x in collection)
 """
 from itertools import islice
 
 
 def batched(some_iterable: Iterable, size: int = 2) -> Iterator[tuple]:
-    """
-    Better as we now can even use generators with unknown size!
-    It is lazy as well and doesn't create huge list of tuples!
-    """
     iterator = iter(some_iterable)
     
     while batch := tuple(islice(iterator, size)):
@@ -286,30 +301,39 @@ But why reinvent the wheel? (In py3.12!)
 from itertools import batched
 ```
 ```python
+"""
+Let's start using batched
+- Imagine we enhanced our fetch_library 
+  to actually stream the books from library
+"""
+def fetch_library() -> Iterable[Book]: ...
+
 def work_on_the_library() -> None:
-    """
-    Let's start using batched
-    - Imagine we enhanced our fetch_library 
-      to actually stream the books from library
-    """
-    lib = fetch_library()  # this is a generator of books!
+    lib = fetch_library()
 ```
-```python {4-9|1|12,13}
+```python
+"""
+Using the batched function:
+- iterate through the library
+- and let us work on 10 books at a time
+"""
 from itertools import batched
 
 
+def fetch_library() -> Iterable[Book]: ...
+
+
 def work_on_the_library() -> None:
-    """
-    Using the batched function:
-     - iterate through the library
-     - and let us work on 10 books at a time!
-    """
     lib = fetch_library()
 
     for batch in batched(lib, 10):
         do_stuff_with_books(batch)
 ```
-```python {5,9-12}
+```python {1-4,9}
+"""
+We want to save the library so way have 
+local data to work on!
+"""
 from csv import DictWriter
 from itertools import batched
 
@@ -318,10 +342,6 @@ LIBRARY_DB = Path("library_raw.csv")
 
 
 def work_on_the_library() -> None:
-    """
-    We want to save the library so way have 
-    local data to work on!
-    """
     lib = fetch_library()
 
     for batch in batched(lib, 10):
@@ -373,7 +393,7 @@ layout: center
 
 <br> <hr> <br> 
 
-### We started very small, but which modules did we learn about?
+#### We started very small, but we might have learned something new
 
 ---
 layout: center
@@ -389,7 +409,7 @@ Let's start with the stuff you likely already knew...
 
 - csv (_"duh!"_)
 - json (_"Yeah I knew that!"_)
-- TypedDict (Maybe new for a few?)
+- TypedDict with (Not)Required keys (Maybe new for a few?)
 - All of those are in more detail in the /code folder inside the repository
 
 </v-clicks>
@@ -413,6 +433,7 @@ layout: center
 - restricted to `GET`/`POST` (POST by setting the `data` parameter)
 - not as bad to use as one might think,
   considering the vast amount of modules to replace it
+- definetely worth a try, if you only have very few non-async requests
 
 </v-clicks>
 

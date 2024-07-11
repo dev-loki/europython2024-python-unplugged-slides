@@ -46,15 +46,11 @@ backgroundSize: contain
 
 <br> <hr> <br>
 
-**name:** Torsten
-
-**occupation:** Polylang Software Architect/Backend Developer Mara Solutions
-
-**dev since:** +12y
-
-**first code:** ~25y if you count creating crappy Amiga Quickbasic textadventure
-
-**other stuff:** Being a proud dad and husband. Reading, tabletennis, ...the usual stuff
+- **name:** Torsten
+- **occupation:** Polylang Software Architect/Backend Developer Mara Solutions
+- **dev since:** +12y
+- **first code:** ~25y if you count creating a crappy Amiga Quickbasic textadventure or reproducing the famous DVD logo which never hits the corner
+- **other stuff:** Being a proud dad and husband; Reading; Tabletennis; extreme metal
 
 <!--
 - Whoami
@@ -75,7 +71,8 @@ layout: center
 - for simple cases external libraries are not always necessary¹
   - _¹for simple cases!_
 - better portable one-off scripts!
-- sometimes even easier!
+- (sometimes) even easier!
+- also useful in day2day work
 
 </v-clicks>
 
@@ -96,15 +93,18 @@ layout: center
 <v-clicks>
 
 - Performance issues
-- If performance is really **crucial**: <br>
+- If performance really is **crucial**: <br>
   Pandas/Polars/Numpy/etc. are perfect for you
+- Leetcode problems
 
 </v-clicks>
 
 <!--
 - Typical python job for complex applications: glue code between libraries written in C, Rust or similar
     - e.g. pandas/polars/pydantic)
-- Leet code
+- Leet code: The code might not always be the best approach solving this 
+  kind of problem
+- but it is a short enough example to showoff the tool I want to show
 -->
 
 ---
@@ -118,8 +118,11 @@ layout: center
 1. Fetching data
 2. Cleaning data
 3. Processing data
+
+<hr>
+
 4. Miscellaneus / Additional stuff (Might be dropped because of time)
-5. (Maybe some vanilla python server implementation)
+5. Maybe some vanilla python server implementation
 
 ---
 layout: image-right
