@@ -8,6 +8,8 @@ pnpm run export
 # scp -i "$ZOLA_KEY" -r dist/* "$REMOTE"
 
 LOCAL="$HOME/project/lokidev-blog/static/slides/vortraege/ep2024-python-unplugged"
+rm -rf "$LOCAL-bak" 2>/dev/null
+mv "$LOCAL" "$LOCAL-bak"
 cp -r dist "$LOCAL"
 
 mv slides-export.pdf "$LOCAL/europython2024-python-unplugged-slides.pdf"

@@ -20,7 +20,7 @@ We want to have list of words in all the titles.
 
 <v-click>
 
-Very simple example Example
+Very simple example
 
 - The: 123
 - a: 42
@@ -50,9 +50,6 @@ def most_common_words_in_title(books: Iterable[Book]) -> dict:
 ```
 ```python
 def most_common_words_in_title(books: Iterable[Book]) -> dict:
-    """
-    REPLACE
-    """
     word_counter = {}
 
     for book in books:
@@ -67,9 +64,6 @@ from collections import defaultdict
 
 
 def most_common_words_in_title(books: Iterable[Book]) -> dict:
-    """
-    Import and use dictionary
-    """
     word_counter = defaultdict(int)
 
     for book in books:
@@ -84,14 +78,12 @@ from collections import defaultdict
 
 
 def most_common_words_in_title(books: Iterable[Book]) -> dict:
-    """
-    Much more concise :)
-    """
     word_counter = defaultdict(int)
 
     for book in books:
         for word in book['title'].split():
             word_counter[word] += 1
+
     return word_counter
 ```
 ````
@@ -124,6 +116,8 @@ def most_common_words_in_title(books: Iterable[Book]) -> dict:
     for book in books:
         for word in book['title'].split():
             word_counter[word] += 1
+
+    return word_counter
 ```
 
 ```python {4}
@@ -172,14 +166,15 @@ def most_common_words_in_data(books: Iterable[Book]) -> dict:
         for word in all_words:
             word_counter += 1
 ```
-
 ```python
+"""
+Not yet sufficient, as we have a nested generator
+"""
 from collections import defaultdict
 from itertools import chain
 
 
 def most_common_words_in_data(books: Iterable[Book]):
-    """Not yet sufficient, as we have a nested generator"""
     word_generator = (
         chain(
             book['title'].split(),
@@ -190,16 +185,17 @@ def most_common_words_in_data(books: Iterable[Book]):
     )
     # -> ((Hello, World), (How, are, you), ...)
 ```
-```python {17-18}
+```python {11-18|20}
+"""
+This finally gives us the words in all the books 
+as one long word generator
+"""
+ 
 from collections import defaultdict, Counter
 from itertools import chain
 
 
 def most_common_words_in_data(books: Iterable[Book]):
-    """
-    This finally gives us the words in all the books 
-    as one long word generator
-    """
     word_generator = chain.from_iterable(
         chain(
             book['title'].split(),
@@ -209,6 +205,101 @@ def most_common_words_in_data(books: Iterable[Book]):
         for book in books
     )
 
+    return Counter(word_generator)
+```
+```python {1-4}
+"""
+Remember what I said about surprising behaviour?
+Having 4 concepts in one chunk of code is surprising ;)
+"""
+from collections import defaultdict, Counter
+from itertools import chain
+
+
+def most_common_words_in_data(books: Iterable[Book]):
+    word_generator = chain.from_iterable(
+        chain(
+            book['title'].split(),
+            book['author'].split(),
+            book['excerpt'].split(),
+        )
+        for book in books
+    )
+
+    return Counter(word_generator)
+```
+```python {1-3,8-13|17-20}
+"""
+Extract the "extraction of the words in a book"
+"""
+from collections import defaultdict, Counter
+from itertools import chain
+
+
+def words_in_a_book(book: Book) -> Iterable[str]:
+    return chain(
+        book['title'].split(),
+        book['author'].split(),
+        book['excerpt'].split(),
+    )
+
+
+def most_common_words_in_data(books: Iterable[Book]):
+    word_generator = chain.from_iterable(
+        words_in_a_book(book)
+        for book in books
+    )
+
+    return Counter(word_generator)
+```
+```python {9-14|16-20|22-24}
+"""
+Let's go nuts:
+- Extract the word generation in a speaking function
+"""
+from collections import defaultdict, Counter
+from itertools import chain
+
+
+def words_in_a_book(book: Book) -> Iterable[str]:
+    return chain(
+        book['title'].split(),
+        book['author'].split(),
+        book['excerpt'].split(),
+    )
+
+def generate_words_from_library(books: Iterable[Book]) -> Iterable[str]:
+    yield from chain.from_iterable(
+        words_in_a_book(book)
+        for book in books
+    )
+
+def most_common_words_in_data(books: Iterable[Book]):
+    word_generator = generate_words_from_library(books)
+    return Counter(word_generator)
+```
+```python {4,15-17}
+from collections import defaultdict, Counter
+from itertools import chain
+
+flatten = chain.from_iterable
+
+
+def words_in_a_book(book: Book) -> Iterable[str]:
+    return chain(
+        book['title'].split(),
+        book['author'].split(),
+        book['excerpt'].split(),
+    )
+
+def generate_words_from_library(books: Iterable[Book]) -> Iterable[str]:
+    yield from flatten(
+        words_in_a_book(book)
+        for book in books
+    )
+
+def most_common_words_in_data(books: Iterable[Book]):
+    word_generator = generate_words_from_library(books)
     return Counter(word_generator)
 ```
 ````

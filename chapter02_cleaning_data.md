@@ -67,7 +67,7 @@ def only_save_non_duplicates() -> None:
         for batch in batched(lib, 10):
             writer.writerows(batch)
 ```
-```python {16-18}
+```python {15-18}
 from csv import DictWriter
 from itertools import batched
 
@@ -76,7 +76,7 @@ LIBRARY_DB = Path("library_raw.csv")
 COLUMNS = Book.__annotations.__.keys()
 
 
-def only_save_non_du..plicates() -> None:
+def only_save_non_duplicates() -> None:
     book_gen = fetch_library()
 
     with LIBRARY_DB.open("w") as file:
@@ -87,7 +87,31 @@ def only_save_non_du..plicates() -> None:
             for book in filter_double_books(batch):
                 writer.writerows(batch)
 ```
-```python {1-3,5|1,4,5,20-24}
+```python {9-11,21}
+from csv import DictWriter
+from itertools import batched
+
+
+LIBRARY_DB = Path("library_raw.csv")
+COLUMNS = Book.__annotations.__.keys()
+
+
+def filter_double_books(books: Iterable[Book]) -> Iterable[Book]:
+    # some filtermagic -> up to the attendee to solve themselves ;)
+    return books
+
+
+def only_save_non_duplicates() -> None:
+    book_gen = fetch_library()
+
+    with LIBRARY_DB.open("w") as file:
+        writer = DictWriter(file, fieldnames=COLUMNS)
+        writer.writeheader()
+        for batch in batched(book_gen, 10):
+            for book in filter_double_books(batch):
+                writer.writerows(batch)
+```
+```python {1-3,5|1,4,5,21-23|1,4,5,20,24}
 """
 As we watch our code run, we recognize, that
 Books always duplicate in pairs!
@@ -136,17 +160,17 @@ def only_save_non_duplicates() -> None:
             if book != book2:
                 writer.writerow(book)
 ```
-```python {10,11,12|10-22|19,24-26}
+```python {1-6,19-21}
 """
-Problem: We don't get the last book!
+This should work, right?
+- Unfortunately NOT:
+  - [1,2,3] -> [(1,2), (2,3)]
+  - We'd never save 3!
 """
 from csv import DictWriter
 from itertools import pairwise
 
-
-LIBRARY_DB = Path("library_raw.csv")
-COLUMNS = Book.__annotations.__.keys()
-
+# ...
 
 def only_save_non_duplicates() -> None:
     book_gen = fetch_library()
@@ -155,19 +179,40 @@ def only_save_non_duplicates() -> None:
         writer = DictWriter(file, fieldnames=COLUMNS)
         writer.writeheader()
 
+        for book, book2 in pairwise(book_gen):
+            if book != book2:
+                writer.writerow(book)
+```
+```python {1,6,2,18|1,6,4,23,24|1,6,5}
+"""
+Solution: remember the last book 
+and after the iteration
+we do another check for the last book
+-> Not a fan!
+"""
+from csv import DictWriter
+from itertools import pairwise
+
+# ...
+
+def only_save_non_duplicates() -> None:
+    book_gen = fetch_library()
+
+    with LIBRARY_DB.open("w") as file:
+        # ... DictWriter stuff
+
         book = book2 = None
         for book, book2 in pairwise(lib):
             if book != book2:
                 writer.writerow(book)
 
-        # NOT a fan:
         if book2 and book != book2:
             writer.writerow(book2)
 ```
 ```python {1-4,19}
 """
-We can also use destructuring, but this would 
-defy the purpose of a generator
+We can also use destructuring,
+but this would defy the purpose of a generator
 """
 from csv import DictWriter
 
@@ -187,9 +232,9 @@ def only_save_non_duplicates() -> None:
             if book != book2:
                 writer.writerow(book2)
 ```
-```python {1-4,20}
+```python {1-4,6,20|5-22}
 """
-chain to the rescue!
+itertools.chain to the rescue!
 It lazily chains multiple iterators without effort
 """
 from csv import DictWriter
@@ -239,7 +284,7 @@ layout: center
 - Uses an iterator like `range(10)`...
 - ... and creates a new iterator like `((0,1), (1,2), (2,3), ..., (8, 9))`
 - other example: `list(pairwise("Hello")) == [("H","e"), ("e","l"), ("l","l"), ("l","o")]` 
-- is lazy -> Without `list(...)` or other ways of consuming pairwise does (almost) nothing
+- is lazy -> without `list(...)` or other ways of consuming `pairwise` does (almost) nothing
 
 </v-clicks>
 
@@ -258,7 +303,7 @@ layout: center
     - We get this `['H', 'e', 'l', 'l', 'o', 'W', 'o', 'r', 'l', 'd']`
 - Advantage: it's lazy and doesn't create a large¹ object, like:
     - `combined_list = [*my_list, *my_other_list]`
-    - ¹(not large means: it only holds references)
+    - ¹("not large" means: it only holds references)
 - It can flatten lists with a classmethod: `chain.from_iterable(...)`
 
 </v-clicks>
@@ -274,12 +319,21 @@ _(also a common thing people do themselves)_
 
 <br><hr><br>
 
-```python {1|2|4}
+````md magic-move
+```python
+my_list = [[1,2,3], [3,4,5]]
+```
+```python
+my_list = [[1,2,3], [3,4,5]]
+flattened = chain.from_iterable(my_list)
+```
+```python
 my_list = [[1,2,3], [3,4,5]]
 flattened = chain.from_iterable(my_list)
 
 assert list(flattened) == [1,2,3,3,4,5]
 ```
+````
 
 ---
 layout: center
@@ -315,9 +369,7 @@ layout: center
 
 Basically just an excuse to show grouping of contextmanagers
 
-```python
-OUTPUT_FILE = 'library_clean.csv'
-
+```python {1,14,15|7-12|all}
 def remove_duplicates(iterable: Iterable) -> Iterator: ...
 
 
@@ -388,11 +440,13 @@ def hide_lost_books(
 ```
 
 ```python
+"""
+Search for first number in year string. Easy. Right?
+"""
 import re
 
 
 def extract_year(morporkyear: str) -> int:
-    """Search for first number in year string. Easy. Right?"""
     return int(re.search(r"(\d)", morporkyear).group(0))
 
 
@@ -401,14 +455,14 @@ def hide_lost_books(iterable: Iterable[Book]) -> Iterator[Book]:
 ```
 
 ```python
+"""
+But how do we know this really does what we want?
+We could try it, but this is boring and doesn't scale!
+"""
 import re
 
 
 def extract_year(morporkyear: str) -> int:
-    """
-    But how do we know this really does what we want?
-    We could try it, but this is boring and doesn't scale!
-    """
     return int(re.search(r"(\d)", morporkyear).group(0))
 
 
@@ -426,9 +480,11 @@ image: orang-utan-doctor.jpg
 
 <hr> 
 
-```python
-"""Lets start with the same function, but add some
-minimal documentation"""
+```python {1-4|9-14}
+"""
+Lets start with the same function, but add some
+minimal documentation
+"""
 import re
 
 
@@ -449,8 +505,8 @@ layout: image-right
 image: orang-utan-doctor.jpg
 ---
 
-```sh {1|3-10|10-13}
-python -m doctest code/chapter2/doctest_example.py
+```sh {1|3-10|8,9|10-13}
+python -m doctest [...]/04_doctest_example.py
 
 **************************************************
 File ".../code/chapter2/doctest_example.py", 
@@ -470,15 +526,15 @@ layout: image-right
 image: orang-utan-doctor.jpg
 ---
 
-Long story short: lets fix it!
+Long story short: Lets fix it!
 
 <hr> 
 
 ````md magic-move
-```python
+```python {1-4,16}
 """
-Basically just saying that we expect at least one 
-but arbitrary many numbers
+\d+ is basically just saying that we expect at
+least one but arbitrary many numbers
 """
 import re
 
@@ -495,7 +551,7 @@ def extract_year(morporkyear: str) -> int:
     )
 ```
 
-```python
+```python {1-3,14-15|1-3,17-18|1-3,21}
 """
 Adding a few more "tests" & fixing the issues
 """
@@ -538,8 +594,7 @@ def hide_lost_books(iterable: Iterable[Book]) -> Iterator[Book]:
         if extract_year(book["lent_since"]) >= -300:
             yield book
 ```
-
-```python
+```python {1-7,11-15}
 """
 Use `yield from` to directly generate from this and unindent the code
 Why?
@@ -556,10 +611,9 @@ def hide_lost_books(iterable: Iterable[Book]) -> Iterator[Book]:
         if extract_year(book["lent_since"]) >= -300
     )
 ```
-
-```python
+```python {1,2,6|1,4-6,9,17,18}
 """
-But now we want to keep track of the lost books.
+We want to keep track of the lost books (book keeping!)
 
 Using a global variable :/ ?
 -> Bad because global state can mess with us
@@ -578,9 +632,9 @@ def hide_lost_books(
             lost_books.append(book)
 ```
 
-```python
+```python {1-4,19-22}
 """
-Yield the lost books last?
+Yield the lost books last with some separator?
 -> ugly with return type
 """
 def extract_year(morporkyear: str) -> int: ...
@@ -603,7 +657,7 @@ def hide_lost_books(
     yield from lost_books
 ```
 
-```python
+```python {1-5,9,10}
 """
 Let's adapt our return type.
 
@@ -613,7 +667,7 @@ a Generator
 def hide_lost_books(
     iterable: Iterable[Book]
 ) -> Generator[Book, None, list[Book]]:
-    #     yield --^      | send ^ |   ^---- return type
+    #  yield --^   | send | ^- return 
     lost_books = []
 
     for book in iterable:
@@ -627,8 +681,7 @@ def hide_lost_books(
     # The lost books
     yield from lost_books
 ```
-
-```python
+```python {3,7,8|4,9,10|4,9,10,12}
 def hide_lost_books(
     iterable: Iterable[Book]
 ) -> Generator[Book, None, list[Book]]:
@@ -643,10 +696,8 @@ def hide_lost_books(
     return lost_books
 ```
 
-```python
-"""
-Usage
-"""
+```python {1-3|6-9|11-15|17}
+""" Usage """
 def hide_lost_books(iterable: Iterable[Book]) -> \
     Generator[Book, None, list[Book]]: ...
 
@@ -679,7 +730,7 @@ layout: center
 - Generators `yield` values
 - Generators always also return a value inside `StopIteration` (default `None`)
 - Is it a good idea?
-    - No. Most likely not, as it is kind of suprising behaviour
+    - No. Most likely not, as it is kind of surprising behaviour
 - But why did we just see it?
     - Because sometimes in one-off scripts this is faster and easier than
       a sophisticated object containing the data solution
