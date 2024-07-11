@@ -104,6 +104,41 @@ class Book:
 
 ---
 
+# with suppress
+
+````md magic-move
+```python
+def ignore_failing_call():
+    try:
+        might_fail_but_I_dont_care()
+    except RuntimeError as err:
+        """We don't care about failing"""
+        pass
+```
+```python
+from contextlib import suppress
+
+
+def ignore_failing_call():
+    try:
+        might_fail_but_I_dont_care()
+    except RuntimeError as err:
+        """We don't care about failing"""
+        pass
+```
+```python
+from contextlib import suppress
+
+
+def ignore_failing_call():
+    with suppress(RuntimeError):
+        """We still don't care about failing"""
+        might_fail_but_I_dont_care()
+```
+````
+
+---
+
 # The "server"
 
 <br><hr><br>
