@@ -476,6 +476,14 @@ layout: image-right
 image: orang-utan-doctor.jpg
 ---
 
+# Doctest - to the rescue
+
+<br><hr> <br>
+
+### We will need some documentation
+
+---
+
 ## Doctest - to the rescue
 
 <hr> 
@@ -501,9 +509,6 @@ def extract_year(morporkyear: str) -> int:
 ```
 
 ---
-layout: image-right
-image: orang-utan-doctor.jpg
----
 
 ```sh {1|3-10|8,9|10-13}
 python -m doctest [...]/04_doctest_example.py
@@ -521,9 +526,6 @@ Got: 4
 ***Test Failed*** 1 failures.
 ```
 
----
-layout: image-right
-image: orang-utan-doctor.jpg
 ---
 
 Long story short: Lets fix it!
@@ -742,12 +744,12 @@ layout: center
 </v-clicks>
 
 --- 
-layout: two-cols
+layout: center
 ---
 
 ### 🤓 But how would I do it?
 
-<hr>
+<br><hr><br>
 
 <v-clicks>
 
@@ -760,20 +762,19 @@ layout: two-cols
 
 </v-clicks>
 
-::right::
+---
+
+## How I would do it
+
+<hr>
 
 ```python {all|1-4|5-6|16|all}{at:1}
-from typing import NamedTuple
-
-
-class BookMeta(NamedTuple):
+class BookMeta(typing.NamedTuple):
     current: Book
     lost: list[Book]
 
 
-def hide_lost_books(
-    iterable: Iterable[Book]
-) -> Iterator[BookMeta]:
+def hide_lost_books(iterable: Iterable[Book]) -> Iterator[BookMeta]:
     lost_books = []
 
     for book in iterable:

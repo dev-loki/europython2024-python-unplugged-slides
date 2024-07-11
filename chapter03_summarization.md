@@ -102,8 +102,6 @@ _So glad customers always know what they want in the first iteration :)_
 </v-click>
 
 ---
-layout: center
----
 
 ````md magic-move
 ```python
@@ -183,9 +181,9 @@ def most_common_words_in_data(books: Iterable[Book]):
         )
         for book in books
     )
-    # -> ((Hello, World), (How, are, you), ...)
+    # -> ((Words, from, one, book), (Words, from, another, book), ...)
 ```
-```python {11-18|20}
+```python {1-4,11-18|20}
 """
 This finally gives us the words in all the books 
 as one long word generator
@@ -411,15 +409,13 @@ def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
     return family, books_by_family[family]
 ```
 ```python {7-9,1-4,14,15,18-24,26}
-"""
-Let's see how we could do it with groupby
-"""
+"""Let's see how we could do it with groupby"""
 from itertools import groupby
 
 
 def family_name(book: Book) -> str:
     """Let's create a function for this"""
-    return book['lent_by'].split()[1]
+    return book['lent_by'].split(maxsplit=2)[1]
 
 
 def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
@@ -472,15 +468,25 @@ def family_lent_the_most(books: Iterable[Book]) -> BiggestLender:
 layout: center
 ---
 
+## To recap:
+
+<br> <hr> <br>
+
+- YES! The sorted(...) part consumes our iterator
+- `groupby` **needs** a sorted iterator, to be somewhat useful
+- It returns not a dict, but a sequence of tuples: `[(key, items), ...]`
+
+---
+layout: center
+---
+
 ## But the librarian changed requirements again... 
 
 <br><hr><br>
 :/ 
 
-_"ookh! ookh! (I want youthe total lenders, unique family names and amount of unlent_books)_
+_"ookh! ooookh!" (I want the total lenders, unique family names and amount of unlent_books)_
 
----
-layout: center
 ---
 
 ````md magic-move
@@ -494,7 +500,7 @@ def unique_families(books: Iterable[Book]) -> set[str]: ...
 
 def unlent_books_count(books: Iterable[Book]) -> int: ...
 ```
-```python {10-13}
+```python {1-4,10-13}
 """
 And we have here the Statistics object:
 - Again a Namedtuple, as it is nice to access and small in footprint
@@ -532,7 +538,7 @@ def gather_statistics(books: Iterable[Book]) -> Statistics:
         unlent_books=unlent_books_count(books),
     )
 ```
-```python {12-16}
+```python {10-17}
 def total_unique_lenders(books: Iterable[Book]) -> int: ... 
 def unique_families(books: Iterable[Book]) -> set[str]: ... 
 def unlent_books_count(books: Iterable[Book]) -> int: ...
@@ -542,7 +548,7 @@ class Statistics(NamedTuple): ...
 
 
 def gather_statistics(books: Iterable[Book]) -> Statistics:
-    """This would solve that, right?"""
+    """This would solve our Problem, right?"""
     all_books = list(books)
 
     return Statistics(
@@ -618,7 +624,7 @@ def gather_statistics(books: Iterable[Book]) -> Statistics:
         unlent_books=unlent_books_count(all_books),
     )
 ```
-```python {25,26|6-10,13-23}
+```python {13-23}
 def total_unique_lenders(books: Iterable[Book]) -> int: ... 
 def unique_families(books: Iterable[Book]) -> list[str]: ... 
 def unlent_books_count(books: Iterable[Book]) -> int: ...
@@ -646,19 +652,19 @@ def statistics_reducer(
 def gather_statistics(books: Iterable[Book]) -> Statistics:
     ...
 ```
-
-```python {3-8|10-17}
+```python {7-12|15-17}
 from itertools import reduce
 
-def total_unique_lenders(books: Iterable[Book]) -> int: ... 
-def unique_families(books: Iterable[Book]) -> list[str]: ... 
-def unlent_books_count(books: Iterable[Book]) -> int: ...
-class Statistics(NamedTuple): ...
-@dataclasses.dataclass() class StatisticsAccumulator: ...
-def statistics_reducer( acc: StatisticsAccumulator, book: Book) -> StatisticsAccumulator: ...
+def statistics_reducer(
+    acc: StatisticsAccumulator, book: Book
+) -> StatisticsAccumulator: ...
 
 def gather_statistics(books: Iterable[Book]) -> Statistics:
-    accumulated_stats = reduce(statistics_reducer, books, StatisticsAccumulator())
+    accumulated_stats = reduce(
+        statistics_reducer,
+        books,
+        StatisticsAccumulator()
+    )
 
     return Statistics(
         unique_lenders = len(accumulated_stats.lenders),
@@ -666,20 +672,11 @@ def gather_statistics(books: Iterable[Book]) -> Statistics:
         unlent_books = accumulated_stats.unlent,
     )
 ```
-```python {3-8|10-17}
-from itertools import reduce
-
-
-@dataclasses.dataclass
-class StatisticsAccumulator:
-    lenders: set[str] = set()
-    families: set[str] = set()
-    unlent: int = 0
-
+```python {1|3-12|14-25}
+@dataclass class StatisticsAccumulator:...
 
 def statistics_reducer(
-    acc: StatisticsAccumulator,
-    book: Book,
+    acc: StatisticsAccumulator, book: Book,
 ) -> StatisticsAccumulator:
     if book['lent_by']:
         acc.lenders.add(book['lent_by'])
@@ -690,11 +687,13 @@ def statistics_reducer(
     return acc
 
 def gather_statistics(books: Iterable[Book]) -> Statistics:
-    accumulated_stats = reduce(statistics_reducer, books, StatisticsAccumulator())
+    accumulated_stats = reduce(
+        statistics_reducer,
+        books,
+        StatisticsAccumulator(),
+    )
 
-    # We could just return the Accumulator, but I like to keep the
-    # amount of mutable objects as confined as possible
-    return Statistics(
+    return Statistics(  # Why different object?
         unique_lenders = len(accumulated_stats.lenders),
         families = len(accumulated_stats.families),
         unlent_books = accumulated_stats.unlent,
@@ -715,15 +714,11 @@ backgroundSize: contain
 _Maybe our computation is not CPU bound, but IO bound?_
 
 ---
-layout: image-right
-image: tee-tea-python.jpg
-backgroundSize: contain
----
 
 <hr><br>
 
 ````md magic-move
-```python {1-5|11-18}
+```python {1-8|11-18}
 """
 We still have these - will hide them completely in 
 the next slide
@@ -760,7 +755,7 @@ def gather_statistics(books: Iterable[Book]) -> Statistics:
         unlent_books=unlent_books_count(all_books),
     )
 ```
-```python {6,7,13|15-20|7-11,15-20}
+```python {6,7,10|10,12-17|7-8}
 from itertools import tee
 
 
@@ -768,7 +763,7 @@ def gather_statistics(books: Iterable[Book]) -> Statistics:
     """
     Now we create 3 "references" of the generator
     Caveat:
-     - This is only a pseudo solution!
+     - This is only a pseudo solution to show off tee!
     """
     books_1, books_2, books_3 = tee(books, n=3)
 
@@ -789,18 +784,15 @@ backgroundSize: contain
 
 ### Tee caveats
 
-<br><hr><br>
+<hr>
 
 <v-clicks depth="2">
 
-1. You don't want to consume the source generator
-    - It will move forward without the `tees` to catch up!
-2. `tee` is not thread safe: it might cause `RuntimeError` if used in a threading/async environment!
-    - Not standard vanilla python, but for easy `async` and threading usage: `asyncstdlib`
-    - I have a vanilla python implementation with `Queue` and `deque` in my repository
+1. You don't want to consume the source
+    - The `tees` wouldn't catch up!
+2. It's not thread safe: it might cause `RuntimeError`
+    - threading usage: `asyncstdlib`
     - There is an async tee (`atee`) implementation in `code/chapter3/04_async_tee.py` in the repo
-3. If the 3 generators advance in very different speed:
-    - A lot of space is used to cache the values the other iterators did not get to (yet)
-4. We could build our own threadsafe tee? -> code example using `queue.Queue` in the repository
+3. Space consumption, if the 3 generators advance in very different speed
 
 </v-clicks>
