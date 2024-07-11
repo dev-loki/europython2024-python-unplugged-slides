@@ -10,3 +10,5 @@ output.csv
 output.json
 output.jsonl
 .env
+*.pyc
+__pycache__
