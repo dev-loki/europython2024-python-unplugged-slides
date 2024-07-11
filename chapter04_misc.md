@@ -116,7 +116,7 @@ def ignore_failing_call():
         pass
 ```
 ```python
-from contextlib import suppress
+import contextlib
 
 
 def ignore_failing_call():
@@ -127,11 +127,11 @@ def ignore_failing_call():
         pass
 ```
 ```python
-from contextlib import suppress
+import contextlib
 
 
 def ignore_failing_call():
-    with suppress(RuntimeError):
+    with contextlib.suppress(RuntimeError):
         """We still don't care about failing"""
         might_fail_but_I_dont_care()
 ```

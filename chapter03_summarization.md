@@ -39,7 +39,6 @@ Very simple example Example
 def most_common_words_in_title(books: Iterable[Book]) -> dict:
     word_counter = {}
 ```
-
 ```python
 def most_common_words_in_title(books: Iterable[Book]) -> dict:
     word_counter = {}
@@ -49,7 +48,6 @@ def most_common_words_in_title(books: Iterable[Book]) -> dict:
             if word in word_counter:
                 word_counter[word] += 1
 ```
-
 ```python
 def most_common_words_in_title(books: Iterable[Book]) -> dict:
     """
@@ -64,7 +62,6 @@ def most_common_words_in_title(books: Iterable[Book]) -> dict:
             else:
                 word_counter[word] = 1
 ```
-
 ```python
 from collections import defaultdict
 
@@ -82,7 +79,6 @@ def most_common_words_in_title(books: Iterable[Book]) -> dict:
             else:
                 word_counter[word] = 1
 ```
-
 ```python
 from collections import defaultdict
 
@@ -96,8 +92,8 @@ def most_common_words_in_title(books: Iterable[Book]) -> dict:
     for book in books:
         for word in book['title'].split():
             word_counter[word] += 1
+    return word_counter
 ```
-
 ````
 
 ---
@@ -158,7 +154,7 @@ def most_common_words_in_data(books: Iterable[Book]) -> dict:
             word_counter[word] += 1
 ```
 
-```python {9-13|15-16}
+```python
 from collections import defaultdict
 from itertools import chain
 
@@ -177,65 +173,44 @@ def most_common_words_in_data(books: Iterable[Book]) -> dict:
             word_counter += 1
 ```
 
-```python {8-15}
+```python
 from collections import defaultdict
 from itertools import chain
 
 
-def most_common_words_in_data(books: Iterable[Book]) -> dict:
-    word_counter = defaultdict(int)
-
-    book_word_generator = (
+def most_common_words_in_data(books: Iterable[Book]):
+    """Not yet sufficient, as we have a nested generator"""
+    word_generator = (
         chain(
             book['title'].split(),
             book['author'].split(),
             book['excerpt'].split(),
         )
-        for word in all_words
+        for book in books
     )
+    # -> ((Hello, World), (How, are, you), ...)
 ```
-
-```python {17}
-from collections import defaultdict
-from itertools import chain
-
-
-def most_common_words_in_data(books: Iterable[Book]) -> dict:
-    word_counter = defaultdict(int)
-
-    book_word_generator = (
-        chain(
-            book['title'].split(),
-            book['author'].split(),
-            book['excerpt'].split(),
-        )
-        for word in all_words
-    )
-
-    word_generator = chain.from_iterable(book_word_generator)
-```
-
 ```python {17-18}
 from collections import defaultdict, Counter
 from itertools import chain
 
 
-def most_common_words_in_data(books: Iterable[Book]) -> dict:
-    word_counter = defaultdict(int)
-
-    book_word_generator = (
+def most_common_words_in_data(books: Iterable[Book]):
+    """
+    This finally gives us the words in all the books 
+    as one long word generator
+    """
+    word_generator = chain.from_iterable(
         chain(
             book['title'].split(),
             book['author'].split(),
             book['excerpt'].split(),
         )
-        for word in all_words
+        for book in books
     )
 
-    word_generator = chain.from_iterable(book_word_generator)
     return Counter(word_generator)
 ```
-
 ````
 
 ---
@@ -269,7 +244,7 @@ def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
         if not book['lent_by']:
             continue
 ```
-```python
+```python {5-9}
 def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
     books_by_family_name = {}
 
@@ -280,7 +255,7 @@ def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
         names_split = book['lent_by'].split()
         family_name = names_split[1]
 ```
-```python
+```python {8}
 def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
     books_by_family_name = {}
 
@@ -290,7 +265,7 @@ def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
 
         _, family = book['lent_by'].split(maxsplit=2)
 ```
-```python
+```python {8-12}
 def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
     books_by_family = {}
 
@@ -304,7 +279,7 @@ def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
         else:
             books_by_family[family] += 1
 ```
-```python
+```python {14-19}
 def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
     books_by_family_name = {}
 
@@ -322,10 +297,10 @@ def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
         books_by_family.items(), 
         key=books_by_family.get,
     )
+
     return family, books_by_family[family]
 ```
-
-```python
+```python {3,9,10}
 def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
     """Again: defaultdict is a sensible choice"""
     books_by_family = defaultdict(int)
@@ -341,9 +316,10 @@ def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
         books_by_family.items(), 
         key=books_by_family.get,
     )
+
     return family, books_by_family[family]
 ```
-```python {12-16}
+```python {7-9,1-4,14,15,18-24,26}
 """
 Let's see how we could do it with groupby
 """
@@ -351,23 +327,27 @@ from itertools import groupby
 
 
 def family_name(book: Book) -> str:
-    """Let's create a functio for this"""
+    """Let's create a function for this"""
     return book['lent_by'].split()[1]
 
 
 def family_lent_the_most(books: Iterable[Book]) -> tuple[str, int]:
     """... and check for the largest size"""
-    lent_books = (b for b in books if b['lent_by'])
-    books_by_family_name = groupby(lent_books, key=family_name)
+    only_lent_books = sorted(b for b in books if b['lent_by'], key=family_name)
+    books_by_family_name = groupby(only_lent_books, key=family_name)
 
-    family = max(
-        books_by_family_name,
-        key=books_by_family_name.get,
+    # Find the family with the most lent books
+    family, lent_books = max(
+        (
+            (family, list(group))
+            for family, group in books_by_family_name
+        ),
+        key=lambda item: len(item[1]),
     )
 
-    return family, len(books_by_family_name[family])
+    return family, lent_books
 ```
-```python {12-16}
+```python {8-10,13,26}
 from itertools import groupby
 
 
@@ -381,15 +361,19 @@ class BiggestLender(NamedTuple):
 
 
 def family_lent_the_most(books: Iterable[Book]) -> BiggestLender:
-    lent_books = (b for b in books if b['lent_by'])
-    books_by_family_name = groupby(lent_books, key=family_name)
-    
-    family = max(
-        books_by_family_name,
-        key=books_by_family_name.get,
+    only_lent_books = sorted((b for b in books if b["lent_by"]), key=family_name)
+
+    books_by_family_name = groupby(only_lent_books, key=family_name)
+
+    family, lent_books = max(
+        (
+            (family, list(group)) 
+            for family, group in books_by_family_name
+        ),
+        key=lambda item: len(item[1]),
     )
 
-    return BiggestLender(family, len(books_by_family_name['family']))
+    return BiggestLender(family, len(lent_books))
 ```
 ````
 
@@ -434,7 +418,6 @@ class Statistics(NamedTuple):
     families: set[str]
     unlent_books: int
 ```
-
 ```python {12-17}
 def total_unique_lenders(books: Iterable[Book]) -> int: ... 
 def unique_families(books: Iterable[Book]) -> set[str]: ... 
@@ -480,6 +463,12 @@ def gather_statistics(books: Iterable[Book]) -> Statistics:
 ````
 
 ---
+layout: center
+---
+
+# Nope, it doesn't :(
+
+---
 layout: image-right
 image: reduced-tea.jpg
 ---
@@ -512,11 +501,10 @@ layout: center
 <hr>
 
 ````md magic-move
-```python
+```python {1-4|7-15|17-24}
 def total_unique_lenders(books: Iterable[Book]) -> int: ... 
 def unique_families(books: Iterable[Book]) -> list[str]: ... 
 def unlent_books_count(books: Iterable[Book]) -> int: ...
-
 class Statistics(NamedTuple): ...
 
 
@@ -539,11 +527,10 @@ def gather_statistics(books: Iterable[Book]) -> Statistics:
         unlent_books=unlent_books_count(all_books),
     )
 ```
-```python
+```python {25,26|6-10,13-23}
 def total_unique_lenders(books: Iterable[Book]) -> int: ... 
 def unique_families(books: Iterable[Book]) -> list[str]: ... 
 def unlent_books_count(books: Iterable[Book]) -> int: ...
-
 class Statistics(NamedTuple): ...
 
 @dataclasses.dataclass
@@ -569,25 +556,53 @@ def gather_statistics(books: Iterable[Book]) -> Statistics:
     ...
 ```
 
-```python
+```python {3-8|10-17}
+from itertools import reduce
+
 def total_unique_lenders(books: Iterable[Book]) -> int: ... 
 def unique_families(books: Iterable[Book]) -> list[str]: ... 
 def unlent_books_count(books: Iterable[Book]) -> int: ...
-
 class Statistics(NamedTuple): ...
+@dataclasses.dataclass() class StatisticsAccumulator: ...
+def statistics_reducer( acc: StatisticsAccumulator, book: Book) -> StatisticsAccumulator: ...
+
+def gather_statistics(books: Iterable[Book]) -> Statistics:
+    accumulated_stats = reduce(statistics_reducer, books, StatisticsAccumulator())
+
+    return Statistics(
+        unique_lenders = len(accumulated_stats.lenders),
+        families = len(accumulated_stats.families),
+        unlent_books = accumulated_stats.unlent,
+    )
+```
+```python {3-8|10-17}
+from itertools import reduce
+
 
 @dataclasses.dataclass
-class StatisticsAccumulator: ...
+class StatisticsAccumulator:
+    lenders: set[str] = set()
+    families: set[str] = set()
+    unlent: int = 0
 
 
 def statistics_reducer(
     acc: StatisticsAccumulator,
     book: Book,
-) -> StatisticsAccumulator: ...
+) -> StatisticsAccumulator:
+    if book['lent_by']:
+        acc.lenders.add(book['lent_by'])
+        acc.families.add(family_name(book))
+    else:
+        acc.unlent += 1
+
+    return acc
 
 def gather_statistics(books: Iterable[Book]) -> Statistics:
     accumulated_stats = reduce(statistics_reducer, books, StatisticsAccumulator())
 
+    # We could just return the Accumulator, but I like to keep the
+    # amount of mutable objects as confined as possible
     return Statistics(
         unique_lenders = len(accumulated_stats.lenders),
         families = len(accumulated_stats.families),
@@ -645,9 +660,7 @@ def gather_statistics(
 from itertools import tee
 
 
-def gather_statistics(
-    books: Iterable[Book]
-) -> Statistics:
+def gather_statistics(books: Iterable[Book]) -> Statistics:
     all_books = list(books)
 
     return Statistics(
@@ -656,17 +669,15 @@ def gather_statistics(
         unlent_books=unlent_books_count(all_books),
     )
 ```
-```python {9-12|9-12,15-18}
+```python {6,7,13|15-20|7-11,15-20}
 from itertools import tee
 
 
-def gather_statistics(
-    books: Iterable[Book]
-) -> Statistics:
-    all_books = list(books)
-
+def gather_statistics(books: Iterable[Book]) -> Statistics:
     """
     Now we create 3 "references" of the generator
+    Caveat:
+     - This is only a pseudo solution!
     """
     books_1, books_2, books_3 = tee(books, n=3)
 
@@ -696,6 +707,7 @@ backgroundSize: contain
 2. `tee` is not thread safe: it might cause `RuntimeError` if used in a threading/async environment!
     - Not standard vanilla python, but for easy `async` and threading usage: `asyncstdlib`
     - I have a vanilla python implementation with `Queue` and `deque` in my repository
+    - There is an async tee (`atee`) implementation in `code/chapter3/04_async_tee.py` in the repo
 3. If the 3 generators advance in very different speed:
     - A lot of space is used to cache the values the other iterators did not get to (yet)
 4. We could build our own threadsafe tee? -> code example using `queue.Queue` in the repository
