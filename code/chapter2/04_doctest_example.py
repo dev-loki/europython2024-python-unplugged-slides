@@ -13,5 +13,13 @@ def extract_year(morpokh_year: str) -> int:
 
     >>> extract_year("year 0 in the 3rd month")
     0
+
+    >>> extract_year("murks")
+    Traceback (most recent call last):
+      ...
+    ValueError: Cannot extract year
     """
-    return int(re.search(r"(-?\d+)", morpokh_year).group(0))
+    if match := re.search(r"(?P<year>-?\d+)", morpokh_year):
+        return int(match.group("year"))
+
+    raise ValueError("Cannot extract year")

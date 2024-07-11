@@ -110,7 +110,7 @@ def only_save_non_duplicates() -> None:
         last_book = None
         for book in bookgen:
             if book != last_book:
-                writer.writerow(book_gen)
+                writer.writerow(book)
             last_book = book
 ```
 ```python {2,10,11,12}
@@ -135,7 +135,7 @@ def only_save_non_duplicates() -> None:
         last_book = None
         for book in bookgen:
             if book != last_book:
-                writer.writerow(book_gen)
+                writer.writerow(book)
             last_book = book
 ```
 ```python {2,16-18}
@@ -156,7 +156,7 @@ def only_save_non_duplicates() -> None:
 
         for book, book2 in pairwise(book_gen):
             if book != book2:
-                writer.writerow(book_gen)
+                writer.writerow(book)
 ```
 ```python {10,11,12|10-22|19,24-26}
 from csv import DictWriter
@@ -722,6 +722,7 @@ layout: two-cols
 
 <v-clicks>
 
+- Perfect time to learn a new thing
 - We use an object to track the data.
     - `NamedTuple` to avoid ugly `result[0]` and `result[1]`
     - Better: `result.lost` and `result.current`
