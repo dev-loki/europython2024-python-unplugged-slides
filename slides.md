@@ -26,7 +26,11 @@ image: python-mining-for-batteries.jpg
 
 <br> 
 
-<xsmall>loki.dev/ep24</xsmall>
+<xsmall>
+
+[loki.dev/ep24](https://loki.dev/ep24/)
+
+</xsmall>
 
 
 <!--
