@@ -347,7 +347,7 @@ _For the brevity of completeness..._
 
 <v-clicks>
 
-- There is also `itertools.ChainMap`
+- There is also `collections.ChainMap`
 - Works similar to `chain`:
 - `cm = ChainMap({"a": 1}, {"b": 2}, {"a": 3})` gives us:
     - `cm["a"] == 1` (Not `3`!)
